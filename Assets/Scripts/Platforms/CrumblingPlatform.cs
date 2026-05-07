@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CrumblingPlatform : MonoBehaviour
 {
@@ -28,9 +27,8 @@ public class CrumblingPlatform : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void OnPlayerLand()
     {
-        if (!collision.gameObject.CompareTag("Player")) return;
         if (isCrumbling) return;
 
         isCrumbling = true;

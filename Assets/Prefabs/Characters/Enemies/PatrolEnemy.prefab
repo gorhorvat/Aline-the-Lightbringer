@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 7612882981535091649}
   - component: {fileID: 7270471144462942748}
   - component: {fileID: 6430610140698692561}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PatrolEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +124,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3394155966035098930}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -142,7 +142,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &6430610140698692561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +157,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PatrolEnemy
   moveSpeed: 3
   stoppingDistance: 0.5
-  waypointTolerance: 0.5
-  waypointCount: 4
-  waypointRangeX: 10
-  waypointRangeZ: 10

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ChaseEnemy : BaseEnemy
 {
-    private Transform player;
+    Transform player;
 
     protected override void Awake()
     {

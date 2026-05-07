@@ -127,4 +127,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorizontalMovingPlatform
   moveDistance: 5
   moveSpeed: 0.5
-  contactTolerance: 0.9

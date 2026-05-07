@@ -2,10 +2,11 @@ using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
-    [SerializeField] protected float moveSpeed = 3f;
+    [SerializeField] float moveSpeed = 3f;
     [SerializeField] float stoppingDistance = 0.5f;
 
     protected Rigidbody rb;
+    bool isHit;
 
     protected virtual void Awake()
     {
@@ -13,7 +14,7 @@ public abstract class BaseEnemy : MonoBehaviour
     }
     protected abstract Vector3 GetTargetPosition();
 
-    private void Update()
+    void Update()
     {
         if (Utils.IsBelowKillPlane(transform.position))
         {
@@ -25,14 +26,6 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         Vector3 target = GetTargetPosition();
         MoveTowards(target);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameManager.Instance.ReloadScene();
-        }
     }
 
     void MoveTowards(Vector3 target)
@@ -55,5 +48,23 @@ public abstract class BaseEnemy : MonoBehaviour
         );
 
         transform.rotation = Quaternion.LookRotation(flatDirection);
+    }
+
+    public void GetHit(Vector3 force)
+    {
+        if (isHit) return;
+
+        isHit = true;
+
+        // disable any enemy movement/AI so it stops fighting the physics
+        enabled = false;
+
+        if (TryGetComponent<Rigidbody>(out Rigidbody rb))
+        {
+            rb.isKinematic = false;
+            rb.AddForce(force, ForceMode.Impulse);
+        }
+
+        Destroy(gameObject, 1.5f);
     }
 }

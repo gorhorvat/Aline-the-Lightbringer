@@ -18,10 +18,6 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        // Spawn initial enemies at specific locations
-        SpawnPatrolEnemy(new Vector3(0f, 0f, 0f), 5f, 5f);
-        SpawnChaseEnemy(new Vector3(-5f, 0f, -5f));
-
         if (autoSpawn)
             StartCoroutine(SpawnLoop());
     }

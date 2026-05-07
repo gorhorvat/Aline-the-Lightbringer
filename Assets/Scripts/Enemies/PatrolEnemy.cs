@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PatrolEnemy : BaseEnemy
 {
-    [SerializeField] float waypointTolerance = 0.5f;
+    float waypointTolerance = 0.5f;
 
-    private Vector3[] waypoints;
-    private int currentWaypoint;
-    private Vector3 center;
-    private float rangeX;
-    private float rangeZ;
+    Vector3[] waypoints;
+    int currentWaypoint;
+    Vector3 center;
+    float rangeX;
+    float rangeZ;
 
     protected override void Awake()
     {
@@ -24,7 +24,7 @@ public class PatrolEnemy : BaseEnemy
         GenerateWaypoints();
     }
 
-    private void GenerateWaypoints()
+    void GenerateWaypoints()
     {
         waypoints = new Vector3[4];
         waypoints[0] = new Vector3(center.x - rangeX, transform.position.y, center.z - rangeZ);
