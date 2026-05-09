@@ -6,13 +6,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float normalSpeed = 5f;
     [SerializeField] float sprintSpeed = 10f;
     [SerializeField] float fallMultiplier = 2.5f;
-    [SerializeField] float ascentMultiplier = 3f;
     [SerializeField] float jumpForce = 6f;
     [SerializeField] float jumpCutMultiplier = 0.5f;
     [SerializeField] float rotationSpeed = 10f;
-    [SerializeField] float attackRange = 1f;        // radius of the overlap sphere
-    [SerializeField] float attackForce = 100f;       // how hard enemies get launched
-    [SerializeField] float attackUpwardForce = 20f;  // upward component of the launch
+    [SerializeField] float attackRange = 1f;
+    [SerializeField] float attackForce = 100f;
+    [SerializeField] float attackUpwardForce = 20f;
     [SerializeField] LayerMask enemyLayer;
 
     CharacterController cc;
@@ -24,7 +23,6 @@ public class PlayerController : MonoBehaviour
     Vector3 facingDirection;
     bool isJumping;
     bool isSprinting;
-
 
     void Awake()
     {
@@ -81,10 +79,7 @@ public class PlayerController : MonoBehaviour
     void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
         if (isJumping && velocity.y > 0)
-        {
             velocity.y *= jumpCutMultiplier;
-        }
-
         isJumping = false;
     }
 
@@ -110,20 +105,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (cc.isGrounded && velocity.y < 0)
-        {
             velocity.y = -2f;
-        }
 
         float currentGravity = Physics.gravity.y;
         if (velocity.y < 0)
-        {
             currentGravity *= fallMultiplier;
-        }
-
-        if (velocity.y > 0 && !isJumping)
-        {
-            currentGravity *= ascentMultiplier;
-        }
 
         velocity.y += currentGravity * Time.deltaTime;
 
@@ -141,22 +127,16 @@ public class PlayerController : MonoBehaviour
         cc.Move((move + new Vector3(0f, velocity.y, 0f)) * Time.deltaTime);
 
         if (Utils.IsBelowKillPlane(transform.position))
-        {
-            GameManager.Instance.ReloadScene();
-        }
+            GameManager.Instance.LoseLife();
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.CompareTag("Enemy"))
-        {
-            GameManager.Instance.ReloadScene();
-        }
+            GameManager.Instance.LoseLife();
 
         if (hit.gameObject.TryGetComponent<CrumblingPlatform>(out CrumblingPlatform crumbling))
-        {
             crumbling.OnPlayerLand();
-        }
     }
 
     void OnDrawGizmosSelected()

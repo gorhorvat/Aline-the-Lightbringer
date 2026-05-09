@@ -4,13 +4,18 @@ public abstract class BaseEnemy : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float stoppingDistance = 0.5f;
+    [SerializeField] float rotationSpeed = 10f;
 
     protected Rigidbody rb;
+    Transform modelMesh;
+    Quaternion meshInitialRotation;
     bool isHit;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        modelMesh = GetComponentInChildren<MeshRenderer>().transform;
+        meshInitialRotation = modelMesh.localRotation;
     }
     protected abstract Vector3 GetTargetPosition();
 
@@ -47,7 +52,10 @@ public abstract class BaseEnemy : MonoBehaviour
             flatDirection.z * moveSpeed
         );
 
-        transform.rotation = Quaternion.LookRotation(flatDirection);
+        // rotate model when walking towards target
+        float targetAngle = Mathf.Atan2(flatDirection.x, flatDirection.z) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
+        modelMesh.localRotation = Quaternion.Slerp(modelMesh.localRotation, targetRotation * meshInitialRotation, Time.deltaTime * rotationSpeed);
     }
 
     public void GetHit(Vector3 force)

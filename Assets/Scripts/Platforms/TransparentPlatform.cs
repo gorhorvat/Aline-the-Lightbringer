@@ -61,7 +61,7 @@ public class TransparentPlatform : MonoBehaviour
 
         if (overlapping.Length > 0)
         {
-            GameManager.Instance.ReloadScene();
+            GameManager.Instance.LoseLife();
             yield break;
         }
 

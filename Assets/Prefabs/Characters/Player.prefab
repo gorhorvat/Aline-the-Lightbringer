@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8858331471154447234}
   - component: {fileID: 287585681339699237}
-  - component: {fileID: 5241230874037142067}
+  - component: {fileID: 5444417025281064812}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -59,7 +59,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!143 &5241230874037142067
+--- !u!143 &5444417025281064812
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,13 +77,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.8
-  m_Radius: 0.52
+  m_Height: 2
+  m_Radius: 0.61
   m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.88, z: 0.26}
+  m_Center: {x: 0, y: 1, z: 0.2}
 --- !u!1001 &182304651207276729
 PrefabInstance:
   m_ObjectHideFlags: 0
