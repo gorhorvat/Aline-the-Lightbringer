@@ -13,7 +13,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float attackForce = 100f;
     [SerializeField] float attackUpwardForce = 20f;
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] AudioClip playerFallDeathSfx;
+    [SerializeField] AudioClip playerEnemyDeathSfx;
 
+    AudioSource playerSfxSource;
     CharacterController cc;
     PlayerInputActions inputActions;
     Transform modelMesh;
@@ -23,10 +26,12 @@ public class PlayerController : MonoBehaviour
     Vector3 facingDirection;
     bool isJumping;
     bool isSprinting;
+    bool isDead;
 
     void Awake()
     {
         cc = GetComponent<CharacterController>();
+        playerSfxSource = GetComponent<AudioSource>();
         inputActions = new PlayerInputActions();
         modelMesh = GetComponentInChildren<MeshRenderer>().transform;
         meshInitialRotation = modelMesh.localRotation;
@@ -126,15 +131,14 @@ public class PlayerController : MonoBehaviour
 
         cc.Move((move + new Vector3(0f, velocity.y, 0f)) * Time.deltaTime);
 
-        if (Utils.IsBelowKillPlane(transform.position))
-            GameManager.Instance.LoseLife();
+        if (!isDead && Utils.IsBelowKillPlane(transform.position))
+        {
+            Die(DamageType.Fall);
+        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.CompareTag("Enemy"))
-            GameManager.Instance.LoseLife();
-
         if (hit.gameObject.TryGetComponent<CrumblingPlatform>(out CrumblingPlatform crumbling))
             crumbling.OnPlayerLand();
     }
@@ -148,5 +152,19 @@ public class PlayerController : MonoBehaviour
             Vector3.one
         );
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
+    }
+
+    public void Die(DamageType damageType)
+    {
+        isDead = true;
+        playerSfxSource.clip = damageType switch
+        {
+            DamageType.Fall => playerFallDeathSfx,
+            DamageType.Enemy => playerEnemyDeathSfx,
+            _ => null
+        };
+
+        playerSfxSource.Play();
+        GameManager.Instance.LoseLife();
     }
 }

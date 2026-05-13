@@ -4,6 +4,13 @@ public abstract class BaseCollectable : MonoBehaviour
 {
     [SerializeField] float rotationSpeed = 90f;
 
+    protected AudioSource collectableCollectedSfx;
+
+    private void Awake()
+    {
+        collectableCollectedSfx = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
@@ -14,6 +21,12 @@ public abstract class BaseCollectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             OnCollected();
+
+            if (collectableCollectedSfx != null)
+            {
+                AudioSource.PlayClipAtPoint(collectableCollectedSfx.clip, transform.position);
+            }
+
             Destroy(gameObject);
         }
     }

@@ -9,8 +9,47 @@ EditorBuildSettings:
     path: Assets/Scenes/LuminaGrove.unity
     guid: fef053b16dd5f494a875c71867db8ba8
   - enabled: 1
-    path: Assets/Scenes/MechanicsDemo.unity
+    path: Assets/Scenes/Zones/Dev/Dev.unity
+    guid: 4d1a5a3ee8946304fa4941a0056db027
+  - enabled: 1
+    path: Assets/Scenes/Zones/Dev/Levels/MechanicsDemo.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/VerdantHollow.unity
+    guid: 613f6329365d8c44290270386a1cc0dd
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/EmbervineThicket.unity
+    guid: c548c32543eb5954f953c391294d5521
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/MossglowCanopy.unity
+    guid: 8ecfcbb822ce74b468676dc0513a907f
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/RootbridgeCrossing.unity
+    guid: 26df69720bcdddc4ab5297d2fe5b6fe8
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/TheBioluminescentDeep.unity
+    guid: e53c406437dd0804b933b58e3f85d24a
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/ThornwallRuins.unity
+    guid: 87205c594fadbcf4d85183af76ce0151
+  - enabled: 1
+    path: Assets/Scenes/Zones/Verdant Hollow/Levels/VerdantHollowHeart.unity
+    guid: ebac86b69459feb4590cb9877c6f2b13
+  - enabled: 1
+    path: Assets/Scenes/Zones/Coldspire Reach/ColdspireReach.unity
+    guid: 71dffbfc12eadb04ab8e9b6ed3e665a2
+  - enabled: 1
+    path: Assets/Scenes/Zones/Embervault/Embervault.unity
+    guid: bf99da7c52beb4c4593789c437a54efd
+  - enabled: 1
+    path: Assets/Scenes/Zones/Skyveil/Skyveil.unity
+    guid: c0ecbc6daeb2c574fbaa88d7f2a53699
+  - enabled: 1
+    path: Assets/Scenes/Zones/Solhaven/Solhaven.unity
+    guid: 5dd647332d51e3743b28ddf6891598e3
+  - enabled: 1
+    path: Assets/Scenes/Zones/Shadowmere/Shadowmere.unity
+    guid: de23aeb44e28d2b46ae8d8ad7b7e3505
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9709bf67075a0ad4fb0a0b50a35959a5, type: 3}
+  m_Name: LuminaGrove
+  m_EditorClassIdentifier: Assembly-CSharp::HubData
+  zones:
+  - {fileID: 11400000, guid: df7afa392e844394db7c1bc3660458e7, type: 2}
+  - {fileID: 11400000, guid: 6e777a0e68dc82e4d805b119145c5093, type: 2}
+  - {fileID: 11400000, guid: 913e323d39e1a334cabe0bb96f2b5fce, type: 2}
+  - {fileID: 11400000, guid: e19535386354f9c49a9ac35598fea5db, type: 2}
+  - {fileID: 11400000, guid: 3efde0d5bf14a0745bd505ccbd85b447, type: 2}
+  - {fileID: 11400000, guid: 4d3df3db4d76cb344b5e4f9c1427edf1, type: 2}
+  - {fileID: 11400000, guid: 6b9f576fc0286c143865c90ea0e52da9, type: 2}

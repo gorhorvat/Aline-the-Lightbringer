@@ -10,9 +10,9 @@ public class TransparentPlatform : MonoBehaviour
     [SerializeField] Material solidMaterial;
     [SerializeField] Material transparentMaterial;
 
-    private MeshRenderer platformRenderer;
-    private Collider platformCollider;
-    private bool isSolid = true;
+    MeshRenderer platformRenderer;
+    Collider platformCollider;
+    bool isSolid = true;
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class TransparentPlatform : MonoBehaviour
         StartCoroutine(ToggleLoop());
     }
 
-    private IEnumerator ToggleLoop()
+    IEnumerator ToggleLoop()
     {
         while (true)
         {
@@ -31,7 +31,7 @@ public class TransparentPlatform : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOut()
+    IEnumerator FadeOut()
     {
         float t = 0f;
         Color solidColor = solidMaterial.color;
@@ -49,7 +49,7 @@ public class TransparentPlatform : MonoBehaviour
         isSolid = false;
     }
 
-    private IEnumerator FadeIn()
+    IEnumerator FadeIn()
     {
         // Check if player is inside before becoming solid
         Collider[] overlapping = Physics.OverlapBox(

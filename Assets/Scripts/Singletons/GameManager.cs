@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,11 +9,8 @@ public class GameManager : MonoBehaviour
     const int LumiberriesPerLife = 100;
 
     [SerializeField] PlayerData playerData;
-    [SerializeField] LoadingScreen loadingScreenPrefab;
-
-    LoadingScreen loadingScreen;
     float minimumLoadTime = 2f;
-    bool isSceneLoading;
+    bool isLevelLoading;
 
     void Awake()
     {
@@ -25,103 +21,127 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-
-        loadingScreen = Instantiate(loadingScreenPrefab);
     }
 
     private void Start()
     {
-        HUDManager.Instance.UpdateLives(playerData.CurrentLives);
-        HUDManager.Instance.ShowLumiberryOverlay(playerData.CurrentLumiberries, playerData.TotalLumiberries);
+        HUDManager.Instance.UpdateLives(playerData.currentLives);
+        HUDManager.Instance.ShowCollectablesOverlay(playerData.currentLumiberries, playerData.totalLumiberries);
     }
 
-    void ReloadScene()
+    void ReloadLevel()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        LoadScene(sceneName, $"Loading {sceneName}");
+        string levelName = SceneManager.GetActiveScene().name;
+        LoadLevel(levelName, Levels.GetLoadingMessage(levelName));
     }
 
-    public void LoadScene(string sceneName, string message)
+    public void TryLoadLevel(string levelName, string message)
     {
-        if (isSceneLoading) return;
-        isSceneLoading = true;
-
-        StartCoroutine(LoadSceneRoutine(sceneName, message));
+        if (IsLevelUnlocked(levelName))
+        {
+            LoadLevel(levelName, message);
+        }
+        else
+        {
+            Debug.Log($"{Levels.GetDisplayValue(levelName)} not unlocked yet!");
+        }
     }
 
-    IEnumerator LoadSceneRoutine(string sceneName, string message)
+    public bool IsLevelUnlocked(string levelName)
     {
-        loadingScreen.Show(message);
+        LevelData level = playerData.hub.GetLevelData(levelName);
+        if (level != null) return level.isUnlocked;
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        ZoneData zone = playerData.hub.GetZoneData(levelName);
+        if (zone != null) return zone.isUnlocked;
+
+        return true; // hub and other scenes always accessible
+    }
+
+    public void LoadLevel(string levelName, string message)
+    {
+        if (isLevelLoading) return;
+        isLevelLoading = true;
+
+        StartCoroutine(LoadLevelRoutine(levelName, message));
+    }
+
+    IEnumerator LoadLevelRoutine(string levelName, string message)
+    {
+        HUDManager.Instance.ShowLoadingScreen(message);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelName);
         operation.allowSceneActivation = false;
 
         float elapsed = 0f;
 
         while (elapsed < minimumLoadTime)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
         operation.allowSceneActivation = true;
-        isSceneLoading = false;
-        loadingScreen.Hide();
+        isLevelLoading = false;
+        HUDManager.Instance.HideLoadingScreen();
     }
 
     public void AddLumiberry()
     {
-        playerData.CurrentLumiberries++;
-        playerData.TotalLumiberries++;
+        playerData.currentLumiberries++;
+        playerData.totalLumiberries++;
 
-        HUDManager.Instance.ShowLumiberryOverlay(playerData.CurrentLumiberries, playerData.TotalLumiberries);
+        HUDManager.Instance.ShowCollectablesOverlay(playerData.currentLumiberries, playerData.totalLumiberries);
 
-        if (playerData.CurrentLumiberries >= LumiberriesPerLife)
+        if (playerData.currentLumiberries >= LumiberriesPerLife)
         {
-            playerData.CurrentLumiberries -= LumiberriesPerLife;
+            playerData.currentLumiberries -= LumiberriesPerLife;
             AddLife();
         }
     }
 
     void AddLife()
     {
-        playerData.CurrentLives++;
-        HUDManager.Instance.UpdateLives(playerData.CurrentLives);
+        playerData.currentLives++;
+        HUDManager.Instance.UpdateLives(playerData.currentLives);
     }
 
     public void LoseLife()
     {
-        if (isSceneLoading) return;
+        if (isLevelLoading) return;
 
-        playerData.CurrentLives--;
-        HUDManager.Instance.UpdateLives(playerData.CurrentLives);
+        playerData.currentLives--;
+        HUDManager.Instance.UpdateLives(playerData.currentLives);
 
-        if (playerData.CurrentLives < 0)
+        if (playerData.currentLives < 0)
         {
             QuitGame();
             return;
         }
 
-        ReloadScene();
+        ReloadLevel();
     }
 
-    public void CollectBeaconCrystal(string levelName)
+    public void CollectLevelCollectable(CollectableType type, string levelName)
     {
-        if (!IsCrystalCollected(levelName))
-        {
-            playerData.collectedBeaconCrystals.Add(levelName);
-            Debug.Log(playerData.collectedBeaconCrystals[0]);
-            // do we need to show some kind of overlay for this?
-            // or not, we show it in zone hub and in "compendium"
-        }
+        LevelData level = playerData.hub.GetLevelData(levelName);
+        if (level == null) return;
+
+        level.Collect(type);
+        //HUDManager.Instance.ShowCollectableCollected(type);
     }
 
-    public bool IsCrystalCollected(string levelName) => playerData.IsBeaconCrystalCollected(levelName);
+    public bool IsLevelCollectableCollected(CollectableType type, string levelName)
+    {
+        LevelData level = playerData.hub.GetLevelData(levelName);
+        if (level == null) return false;
+        return level.IsCollected(type);
+    }
 
     public void StartNewGame()
     {
         playerData.Reset();
-        LoadScene("FirstLevel", "Starting new game!");
+        LoadLevel(Levels.LuminaGrove, Levels.GetLoadingMessage(Levels.LuminaGrove));
     }
 
     public void QuitGame()
@@ -129,4 +149,6 @@ public class GameManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         //Application.Quit();
     }
+
+    public bool IsInMainHub() => SceneManager.GetActiveScene().name == Levels.LuminaGrove;
 }

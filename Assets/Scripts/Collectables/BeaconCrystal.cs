@@ -1,10 +1,7 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class BeaconCrystal : BaseCollectable
+public class BeaconCrystal : LevelCollectable
 {
     protected override void OnCollected()
     {
-        GameManager.Instance.CollectBeaconCrystal(SceneManager.GetActiveScene().name);
+        base.OnCollected();
     }
 }

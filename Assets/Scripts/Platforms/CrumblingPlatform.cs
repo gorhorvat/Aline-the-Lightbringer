@@ -9,11 +9,11 @@ public class CrumblingPlatform : MonoBehaviour
     [SerializeField] float shakeSpeed = 20f;
     [SerializeField] float respawnDelay = 10f;
 
-    private Vector3 startPosition;
-    private Rigidbody rb;
-    private Collider platformCollider;
-    private MeshRenderer platformRenderer;
-    private bool isCrumbling;
+    Vector3 startPosition;
+    Rigidbody rb;
+    Collider platformCollider;
+    MeshRenderer platformRenderer;
+    bool isCrumbling;
 
     void Start()
     {
@@ -27,15 +27,7 @@ public class CrumblingPlatform : MonoBehaviour
         }
     }
 
-    public void OnPlayerLand()
-    {
-        if (isCrumbling) return;
-
-        isCrumbling = true;
-        StartCoroutine(CrumbleSequence());
-    }
-
-    private IEnumerator CrumbleSequence()
+    IEnumerator CrumbleSequence()
     {
         // Shake for X seconds before crumbling
         float elapsed = 0f;
@@ -79,5 +71,13 @@ public class CrumblingPlatform : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void OnPlayerLand()
+    {
+        if (isCrumbling) return;
+
+        isCrumbling = true;
+        StartCoroutine(CrumbleSequence());
     }
 }

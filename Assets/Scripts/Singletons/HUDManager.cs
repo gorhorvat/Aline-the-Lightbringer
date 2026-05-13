@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance { get; private set; }
 
-    [SerializeField] LumiberryOverlay lumiberryOverlayPrefab;
+    [SerializeField] CollectablesOverlay collectiblesOverlayPrefab;
+    [SerializeField] PauseMenu pauseMenuPrefab;
+    [SerializeField] LoadingScreen loadingScreenPrefab;
+
 
     Coroutine hideCoroutine;
-    LumiberryOverlay lumiberryOverlay;
+    CollectablesOverlay collectiblesOverlay;
+    LoadingScreen loadingScreen;
     float displayDuration = 5f;
 
     void Awake()
@@ -22,31 +25,36 @@ public class HUDManager : MonoBehaviour
 
         Instance = this;
 
-        lumiberryOverlay = Instantiate(lumiberryOverlayPrefab);
+        collectiblesOverlay = Instantiate(collectiblesOverlayPrefab);
+        loadingScreen = Instantiate(loadingScreenPrefab);
+        Instantiate(pauseMenuPrefab);
 
-        lumiberryOverlay.Hide();
+        collectiblesOverlay.Hide();
     }
 
-    public void ShowLumiberryOverlay(int currentLumiberries, int totalLumiberries)
+    public void ShowCollectablesOverlay(int currentLumiberries, int totalLumiberries)
     {
-        lumiberryOverlay.UpdateLumiberries(currentLumiberries, totalLumiberries);
+        collectiblesOverlay.UpdateLumiberries(currentLumiberries, totalLumiberries);
 
         // reset timer if already showing
         if (hideCoroutine != null)
             StopCoroutine(hideCoroutine);
 
-        hideCoroutine = StartCoroutine(HideLumiberryOverlay());
+        hideCoroutine = StartCoroutine(HideCollectiblesOverlay());
     }
 
-    IEnumerator HideLumiberryOverlay()
+    IEnumerator HideCollectiblesOverlay()
     {
         yield return new WaitForSeconds(displayDuration);
-        lumiberryOverlay.Hide();
+        collectiblesOverlay.Hide();
         hideCoroutine = null;
     }
 
+    public void ShowLoadingScreen(string message) => loadingScreen.Show(message);
+    public void HideLoadingScreen() => loadingScreen.Hide();
+
     public void UpdateLives(int lives)
     {
-        lumiberryOverlay.UpdateLives(lives);
+        collectiblesOverlay.UpdateLives(lives);
     }
 }

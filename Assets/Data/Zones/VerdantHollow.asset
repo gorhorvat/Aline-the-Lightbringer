@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7384213860e56a14592c125c59c57e86, type: 3}
+  m_Name: VerdantHollow
+  m_EditorClassIdentifier: Assembly-CSharp::ZoneData
+  levels:
+  - {fileID: 11400000, guid: 5672981b989176341aa0ff9e4ea91869, type: 2}
+  - {fileID: 11400000, guid: 3450b70ba4eb46c429d2064ca81ceb28, type: 2}
+  - {fileID: 11400000, guid: 54133b0bf61da70428eca4b2968ec60a, type: 2}
+  - {fileID: 11400000, guid: 5b37151975c207a459eb78967ce7c41d, type: 2}
+  - {fileID: 11400000, guid: a0da6e4f5123a60488cc7c81da3c4036, type: 2}
+  - {fileID: 11400000, guid: c743d7654a0d6d846a436c7492919cd5, type: 2}
+  isUnlocked: 1
+  bossDefeated: 0
+  obeliskActivated: 0
+  newSkillCollected: 0

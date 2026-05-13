@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdc755f46be0665419e8f94314eb9a81, type: 3}
+  m_Name: MossglowCanopy
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  isUnlocked: 1
+  beaconCrystalCollected: 0
+  chronoFeatherCollected: 0
+  radiantEmblemCollected: 0
+  ancientOwlRelicCollected: 0
+  starShardCollected: 0
