@@ -27,6 +27,13 @@ public class CrumblingPlatform : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) {
+            OnPlayerLand();
+        }
+    }
+
     IEnumerator CrumbleSequence()
     {
         // Shake for X seconds before crumbling
@@ -73,7 +80,7 @@ public class CrumblingPlatform : MonoBehaviour
         }
     }
 
-    public void OnPlayerLand()
+    void OnPlayerLand()
     {
         if (isCrumbling) return;
 

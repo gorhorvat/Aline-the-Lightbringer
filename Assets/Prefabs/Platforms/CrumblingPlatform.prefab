@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1392343463455474901}
   - component: {fileID: 1041567463557000071}
   - component: {fileID: 5482206889053199319}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CrumblingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

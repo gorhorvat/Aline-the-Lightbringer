@@ -35,11 +35,11 @@ public abstract class BaseEnemy : MonoBehaviour
         MoveTowards(target);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().Die(DamageType.Enemy);
+            collision.gameObject.GetComponent<PlayerController>().Die(DamageType.Enemy);
         }
     }
 

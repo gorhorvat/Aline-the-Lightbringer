@@ -31,5 +31,21 @@ public abstract class BaseMovingPlatform : MonoBehaviour
         }
     }
 
+    void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().SetCurrentPlatform(rb);
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().SetCurrentPlatform(null);
+        }
+    }
+
     protected abstract Vector3 GetTargetPosition();
 }

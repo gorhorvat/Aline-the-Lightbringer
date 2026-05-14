@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8858331471154447234}
-  - component: {fileID: 287585681339699237}
-  - component: {fileID: 5444417025281064812}
   - component: {fileID: 1562109467001241166}
   - component: {fileID: 840834641740098315}
-  m_Layer: 0
+  - component: {fileID: 5099590443001998060}
+  - component: {fileID: 338955873216892240}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -34,59 +34,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 363969548352823122}
+  - {fileID: 3801067747222238807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &287585681339699237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753577784137872385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 051d403352d58de48bd33e4b5185fe3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  normalSpeed: 5
-  sprintSpeed: 10
-  fallMultiplier: 2.5
-  jumpForce: 6
-  jumpCutMultiplier: 0.5
-  rotationSpeed: 10
-  attackRange: 1
-  attackForce: 100
-  attackUpwardForce: 20
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerFallDeathSfx: {fileID: 8300000, guid: 62dd87f1bdca27749b8405359b34513c, type: 3}
-  playerEnemyDeathSfx: {fileID: 8300000, guid: da0f1609b7410784684b668ab94395b4, type: 3}
---- !u!143 &5444417025281064812
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753577784137872385}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.61
-  m_SlopeLimit: 60
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0.2}
 --- !u!82 &1562109467001241166
 AudioSource:
   m_ObjectHideFlags: 0
@@ -199,14 +149,103 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.94
+  m_Radius: 0.7
   m_Height: 2.25
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0.24}
+  m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!54 &5099590443001998060
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753577784137872385}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!114 &338955873216892240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753577784137872385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051d403352d58de48bd33e4b5185fe3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  normalSpeed: 5
+  sprintSpeed: 10
+  fallMultiplier: 2.5
+  jumpSpeed: 6
+  jumpCutMultiplier: 0.5
+  rotationSpeed: 10
+  attackRange: 1
+  attackForce: 100
+  attackUpwardForce: 20
+  groundDistance: 0.2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 128
+  groundCheck: {fileID: 3801067747222238807}
+  playerFallDeathSfx: {fileID: 8300000, guid: 62dd87f1bdca27749b8405359b34513c, type: 3}
+  playerEnemyDeathSfx: {fileID: 8300000, guid: da0f1609b7410784684b668ab94395b4, type: 3}
+--- !u!1 &2727611821926669016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3801067747222238807}
+  m_Layer: 8
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3801067747222238807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2727611821926669016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8858331471154447234}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &182304651207276729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,6 +297,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 22650b2c00d8f974db8ff2541d35eb5b, type: 3}
       propertyPath: m_Name
       value: Aline
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 22650b2c00d8f974db8ff2541d35eb5b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 22650b2c00d8f974db8ff2541d35eb5b, type: 3}
       propertyPath: m_TagString

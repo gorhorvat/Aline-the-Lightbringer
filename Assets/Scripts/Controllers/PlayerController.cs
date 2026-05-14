@@ -6,33 +6,39 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float normalSpeed = 5f;
     [SerializeField] float sprintSpeed = 10f;
     [SerializeField] float fallMultiplier = 2.5f;
-    [SerializeField] float jumpForce = 6f;
+    [SerializeField] float jumpSpeed = 6f;
     [SerializeField] float jumpCutMultiplier = 0.5f;
     [SerializeField] float rotationSpeed = 10f;
     [SerializeField] float attackRange = 1f;
     [SerializeField] float attackForce = 100f;
     [SerializeField] float attackUpwardForce = 20f;
+    [SerializeField] float groundDistance = 0.2f;
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] LayerMask groundMask;
+    [SerializeField] Transform groundCheck;
     [SerializeField] AudioClip playerFallDeathSfx;
     [SerializeField] AudioClip playerEnemyDeathSfx;
 
-    AudioSource playerSfxSource;
-    CharacterController cc;
     PlayerInputActions inputActions;
+    Rigidbody rb;
+    Rigidbody currentPlatform;
+    AudioSource playerSfxSource;
     Transform modelMesh;
     Quaternion meshInitialRotation;
     Vector2 moveInput;
     Vector3 velocity;
     Vector3 facingDirection;
+    bool isGrounded;
     bool isJumping;
+    bool isHoldingJump;
     bool isSprinting;
     bool isDead;
 
     void Awake()
     {
-        cc = GetComponent<CharacterController>();
-        playerSfxSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
         inputActions = new PlayerInputActions();
+        playerSfxSource = GetComponent<AudioSource>();
         modelMesh = GetComponentInChildren<MeshRenderer>().transform;
         meshInitialRotation = modelMesh.localRotation;
         facingDirection = Vector3.forward;
@@ -45,7 +51,7 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled += OnMove;
         inputActions.Player.Sprint.performed += OnSprint;
         inputActions.Player.Sprint.canceled += OnSprint;
-        inputActions.Player.Jump.started += OnJumpStarted;
+        inputActions.Player.Jump.performed += OnJumpStarted;
         inputActions.Player.Jump.canceled += OnJumpCanceled;
         inputActions.Player.Attack.started += OnAttack;
     }
@@ -56,7 +62,7 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled -= OnMove;
         inputActions.Player.Sprint.performed -= OnSprint;
         inputActions.Player.Sprint.canceled -= OnSprint;
-        inputActions.Player.Jump.started -= OnJumpStarted;
+        inputActions.Player.Jump.performed -= OnJumpStarted;
         inputActions.Player.Jump.canceled -= OnJumpCanceled;
         inputActions.Player.Attack.started -= OnAttack;
         inputActions.Player.Disable();
@@ -74,18 +80,21 @@ public class PlayerController : MonoBehaviour
 
     void OnJumpStarted(InputAction.CallbackContext ctx)
     {
-        if (cc.isGrounded)
+        if (isGrounded)
         {
-            velocity.y = jumpForce;
             isJumping = true;
+            isHoldingJump = true;
         }
     }
 
     void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
-        if (isJumping && velocity.y > 0)
-            velocity.y *= jumpCutMultiplier;
-        isJumping = false;
+        if (isHoldingJump && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * jumpCutMultiplier, rb.linearVelocity.z);
+        }
+
+        isHoldingJump = false;
     }
 
     void OnAttack(InputAction.CallbackContext ctx)
@@ -107,29 +116,48 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (cc.isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        // set movement speed
+        float currentSpeed = isSprinting && isGrounded ? sprintSpeed : normalSpeed;
+        velocity = new Vector3(moveInput.x, 0f, moveInput.y) * currentSpeed;
+        velocity.y = rb.linearVelocity.y;
 
-        float currentGravity = Physics.gravity.y;
-        if (velocity.y < 0)
-            currentGravity *= fallMultiplier;
-
-        velocity.y += currentGravity * Time.deltaTime;
-
-        float currentSpeed = isSprinting ? sprintSpeed : normalSpeed;
-        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y) * currentSpeed;
-
-        if (move.magnitude > 0.1f)
+        // jump
+        if (isJumping)
         {
-            float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg;
+            velocity.y = jumpSpeed;
+            isJumping = false;
+        }
+
+        // rotate based on input only, before adding platform velocity
+        Vector3 inputVelocity = new Vector3(moveInput.x, 0f, moveInput.y);
+        if (inputVelocity.magnitude > 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(inputVelocity.x, inputVelocity.z) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
             modelMesh.localRotation = Quaternion.Slerp(modelMesh.localRotation, targetRotation * meshInitialRotation, Time.deltaTime * rotationSpeed);
             facingDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
 
-        cc.Move((move + new Vector3(0f, velocity.y, 0f)) * Time.deltaTime);
+        // add platform velocity after rotation
+        if (currentPlatform != null)
+        {
+            Vector3 platformVelocity = currentPlatform.linearVelocity;
+            velocity.x += platformVelocity.x;
+            velocity.z += platformVelocity.z;
+        }
+
+        // move player
+        rb.linearVelocity = velocity;
+
+        // apply fall multiplier
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.linearVelocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+
+        GroundCheck();
 
         if (!isDead && Utils.IsBelowKillPlane(transform.position))
         {
@@ -137,21 +165,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.TryGetComponent<CrumblingPlatform>(out CrumblingPlatform crumbling))
-            crumbling.OnPlayerLand();
-    }
+    //void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.matrix = Matrix4x4.TRS(
+    //        transform.position + facingDirection * attackRange + Vector3.up * 0.5f,
+    //        Quaternion.LookRotation(facingDirection),
+    //        Vector3.one
+    //    );
+    //    Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
 
-    void OnDrawGizmosSelected()
+    //    Gizmos.color = Color.red;
+
+    //    Gizmos.DrawWireSphere(
+    //        groundCheck.position,
+    //        groundDistance
+    //    );
+    //}
+
+    void GroundCheck()
     {
-        Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(
-            transform.position + facingDirection * attackRange + Vector3.up * 0.5f,
-            Quaternion.LookRotation(facingDirection),
-            Vector3.one
-        );
-        Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
     }
 
     public void Die(DamageType damageType)
@@ -166,5 +200,10 @@ public class PlayerController : MonoBehaviour
 
         playerSfxSource.Play();
         GameManager.Instance.LoseLife();
+    }
+
+    public void SetCurrentPlatform(Rigidbody rb)
+    {
+        currentPlatform = rb;
     }
 }

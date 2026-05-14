@@ -51,5 +51,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Zones/Shadowmere/Shadowmere.unity
     guid: de23aeb44e28d2b46ae8d8ad7b7e3505
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 056db8d406a11644180a2373641040d2, type: 3}
   m_UseUCBPForAssetBundles: 0
