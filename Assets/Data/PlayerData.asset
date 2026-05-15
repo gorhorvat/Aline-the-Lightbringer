@@ -18,4 +18,9 @@ MonoBehaviour:
   hub: {fileID: 11400000, guid: 80d0723d4ea0b744687fe055674b6789, type: 2}
   skills:
   - {fileID: 11400000, guid: 717c1af3324347f4ab62128e15bda545, type: 2}
+  - {fileID: 11400000, guid: 4cb9bc4fbd8fd604c92cf26a10b0c926, type: 2}
+  - {fileID: 11400000, guid: 44e22404a42c9cc4aa1ca678d1de6fae, type: 2}
+  - {fileID: 11400000, guid: 59aae589b94d3ec40b41233f8f963f72, type: 2}
+  - {fileID: 11400000, guid: 8b94c0a4283d170478ac9389555d413a, type: 2}
+  - {fileID: 11400000, guid: c971ee5fb282c9c4b8a9e8dc7a1006be, type: 2}
   equippedSkill: {fileID: 0}

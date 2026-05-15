@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float attackForce = 100f;
     [SerializeField] float attackUpwardForce = 20f;
     [SerializeField] float groundDistance = 0.2f;
+    [SerializeField] Transform modelMesh;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform groundCheck;
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Rigidbody currentPlatform;
     AudioSource playerSfxSource;
-    Transform modelMesh;
+    Transform cam;
     Quaternion meshInitialRotation;
     Vector2 moveInput;
     Vector3 velocity;
@@ -39,9 +40,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         inputActions = new PlayerInputActions();
         playerSfxSource = GetComponent<AudioSource>();
-        modelMesh = GetComponentInChildren<MeshRenderer>().transform;
         meshInitialRotation = modelMesh.localRotation;
         facingDirection = Vector3.forward;
+        cam = Camera.main.transform;
     }
 
     void OnEnable()
@@ -120,7 +121,20 @@ public class PlayerController : MonoBehaviour
     {
         // set movement speed
         float currentSpeed = isSprinting && isGrounded ? sprintSpeed : normalSpeed;
-        velocity = new Vector3(moveInput.x, 0f, moveInput.y) * currentSpeed;
+
+        // set camera-free movement
+        Vector3 cameraForward = cam.forward;
+        Vector3 cameraRight = cam.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+
+        velocity = moveDirection * currentSpeed;
         velocity.y = rb.linearVelocity.y;
 
         // jump
@@ -131,13 +145,19 @@ public class PlayerController : MonoBehaviour
         }
 
         // rotate based on input only, before adding platform velocity
-        Vector3 inputVelocity = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 inputVelocity = moveDirection;
         if (inputVelocity.magnitude > 0.1f)
         {
-            float targetAngle = Mathf.Atan2(inputVelocity.x, inputVelocity.z) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(0f, targetAngle, 0f);
-            modelMesh.localRotation = Quaternion.Slerp(modelMesh.localRotation, targetRotation * meshInitialRotation, Time.deltaTime * rotationSpeed);
-            facingDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Quaternion targetRotation =
+                Quaternion.LookRotation(inputVelocity);
+
+            modelMesh.rotation = Quaternion.Slerp(
+                modelMesh.rotation,
+                targetRotation * meshInitialRotation,
+                Time.fixedDeltaTime * rotationSpeed
+            );
+
+            facingDirection = inputVelocity.normalized;
         }
 
         // add platform velocity after rotation
@@ -165,23 +185,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.matrix = Matrix4x4.TRS(
-    //        transform.position + facingDirection * attackRange + Vector3.up * 0.5f,
-    //        Quaternion.LookRotation(facingDirection),
-    //        Vector3.one
-    //    );
-    //    Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.matrix = Matrix4x4.TRS(
+            transform.position + facingDirection * attackRange + Vector3.up * 0.5f,
+            Quaternion.LookRotation(facingDirection),
+            Vector3.one
+        );
+        Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
 
-    //    Gizmos.color = Color.red;
+        //Gizmos.color = Color.red;
 
-    //    Gizmos.DrawWireSphere(
-    //        groundCheck.position,
-    //        groundDistance
-    //    );
-    //}
+        //Gizmos.DrawWireSphere(
+        //    groundCheck.position,
+        //    groundDistance
+        //);
+    }
 
     void GroundCheck()
     {
