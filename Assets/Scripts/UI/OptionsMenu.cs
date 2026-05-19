@@ -10,6 +10,9 @@ public class OptionsMenu : MonoBehaviour
 
     AudioSettings audioSettings;
 
+    public bool IsVisible => optionsPanel.activeSelf;
+
+
     public void Show(AudioSettings settings)
     {
         audioSettings = settings;

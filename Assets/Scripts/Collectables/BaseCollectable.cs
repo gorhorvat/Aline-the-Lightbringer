@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class BaseCollectable : MonoBehaviour
 {
     [SerializeField] float rotationSpeed = 90f;
+    [SerializeField] protected GameObject collectedVFXPrefab;
 
     protected AudioSource collectableCollectedSfx;
 
@@ -31,5 +32,13 @@ public abstract class BaseCollectable : MonoBehaviour
         }
     }
 
-    protected abstract void OnCollected();
+    protected virtual void OnCollected()
+    {
+        if (collectedVFXPrefab != null)
+        {
+            GameObject vfx = Instantiate(collectedVFXPrefab, transform.position, Quaternion.identity);
+            Destroy(vfx, 1f);
+        }
+
+    }
 }

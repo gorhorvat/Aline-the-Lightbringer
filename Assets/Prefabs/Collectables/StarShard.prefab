@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StarShard
   rotationSpeed: 90
+  collectedVFXPrefab: {fileID: 2733072225343874403, guid: f777de0b627344347999efa6cf5aaf36, type: 3}
   collectableType: 4
 --- !u!82 &6696334732387007262
 AudioSource:
@@ -84,7 +85,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 4317ac94bf3dadc4eaa4777fd8d8c9c9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.7
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

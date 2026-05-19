@@ -4,6 +4,6 @@ public class HorizontalMovingPlatform : BaseMovingPlatform
 {
     protected override Vector3 GetTargetPosition()
     {
-        return startPosition + Vector3.right * moveDistance;
+        return startPosition + (reverse ? Vector3.left : Vector3.right) * moveDistance;
     }
 }

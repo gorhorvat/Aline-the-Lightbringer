@@ -4,6 +4,6 @@ public class LuminaGroveBootstrapper : MonoBehaviour
 {
     void Start()
     {
-        EnemySpawner.Instance.SpawnChaseEnemy(Vector3.zero);
+        EnemySpawner.Instance.SpawnPatrolEnemy(Vector3.zero, 10, 10);
     }
 }

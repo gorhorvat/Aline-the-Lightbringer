@@ -6,6 +6,6 @@ public class DiagonalPlatform : BaseMovingPlatform
 
     protected override Vector3 GetTargetPosition()
     {
-        return startPosition + new Vector3(diagonalX, 1f, 0f).normalized * moveDistance;
+        return startPosition + new Vector3(reverse ? -diagonalX : diagonalX, 1f, 0f).normalized * moveDistance;
     }
 }

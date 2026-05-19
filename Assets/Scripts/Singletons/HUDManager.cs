@@ -5,13 +5,13 @@ public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance { get; private set; }
 
-    [SerializeField] CollectablesOverlay collectiblesOverlayPrefab;
+    [SerializeField] CollectablesOverlay collectablesOverlayPrefab;
     [SerializeField] PauseMenu pauseMenuPrefab;
     [SerializeField] LoadingScreen loadingScreenPrefab;
 
 
     Coroutine hideCoroutine;
-    CollectablesOverlay collectiblesOverlay;
+    CollectablesOverlay collectablesOverlay;
     LoadingScreen loadingScreen;
     float displayDuration = 5f;
 
@@ -25,16 +25,16 @@ public class HUDManager : MonoBehaviour
 
         Instance = this;
 
-        collectiblesOverlay = Instantiate(collectiblesOverlayPrefab);
+        collectablesOverlay = Instantiate(collectablesOverlayPrefab);
         loadingScreen = Instantiate(loadingScreenPrefab);
         Instantiate(pauseMenuPrefab);
 
-        collectiblesOverlay.Hide();
+        collectablesOverlay.Hide();
     }
 
     public void ShowCollectablesOverlay(int currentLumiberries, int totalLumiberries)
     {
-        collectiblesOverlay.UpdateLumiberries(currentLumiberries, totalLumiberries);
+        collectablesOverlay.UpdateLumiberries(currentLumiberries, totalLumiberries);
 
         // reset timer if already showing
         if (hideCoroutine != null)
@@ -43,10 +43,15 @@ public class HUDManager : MonoBehaviour
         hideCoroutine = StartCoroutine(HideCollectiblesOverlay());
     }
 
+    public void UpdateCollectableIcon(CollectableType type, bool isActive)
+    {
+        collectablesOverlay.UpdateCollectableIcons(type, isActive);
+    }
+
     IEnumerator HideCollectiblesOverlay()
     {
         yield return new WaitForSeconds(displayDuration);
-        collectiblesOverlay.Hide();
+        collectablesOverlay.Hide();
         hideCoroutine = null;
     }
 
@@ -55,6 +60,6 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateLives(int lives)
     {
-        collectiblesOverlay.UpdateLives(lives);
+        collectablesOverlay.UpdateLives(lives);
     }
 }

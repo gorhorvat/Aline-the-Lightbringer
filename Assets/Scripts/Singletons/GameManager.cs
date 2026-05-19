@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +11,8 @@ public class GameManager : MonoBehaviour
     const int LumiberriesPerLife = 100;
 
     [SerializeField] PlayerData playerData;
+
+    HashSet<CollectableType> pendingCollectables = new();
     float minimumLoadTime = 2f;
     bool isLevelLoading;
 
@@ -21,18 +25,18 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
         HUDManager.Instance.UpdateLives(playerData.currentLives);
-        HUDManager.Instance.ShowCollectablesOverlay(playerData.currentLumiberries, playerData.totalLumiberries);
     }
 
     void ReloadLevel()
     {
         string levelName = SceneManager.GetActiveScene().name;
-        LoadLevel(levelName, Levels.GetLoadingMessage(levelName));
+        LoadLevel(levelName, Levels.GetLoadingMessage(levelName), false);
     }
 
     public void TryLoadLevel(string levelName, string message)
@@ -58,17 +62,25 @@ public class GameManager : MonoBehaviour
         return true; // hub and other scenes always accessible
     }
 
-    public void LoadLevel(string levelName, string message)
+    public void LoadLevel(string levelName, string message, bool clearPendingCollectables = true)
     {
         if (isLevelLoading) return;
         isLevelLoading = true;
 
-        StartCoroutine(LoadLevelRoutine(levelName, message));
+        StartCoroutine(LoadLevelRoutine(levelName, message, clearPendingCollectables));
     }
 
-    IEnumerator LoadLevelRoutine(string levelName, string message)
+    IEnumerator LoadLevelRoutine(string levelName, string message, bool clearPendingCollectables)
     {
+        if (clearPendingCollectables)
+        {
+            pendingCollectables.Clear();
+        }
+
         HUDManager.Instance.ShowLoadingScreen(message);
+
+        // small delay to ensure loading screen is fully visible before unloading
+        yield return new WaitForSecondsRealtime(0.1f);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelName);
         operation.allowSceneActivation = false;
@@ -82,7 +94,10 @@ public class GameManager : MonoBehaviour
         }
 
         operation.allowSceneActivation = true;
+        yield return operation;
+
         isLevelLoading = false;
+        RefreshCollectablesOverlay();
         HUDManager.Instance.HideLoadingScreen();
     }
 
@@ -119,23 +134,63 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        ReloadLevel();
+         ReloadLevel();
     }
 
     public void CollectLevelCollectable(CollectableType type, string levelName)
     {
-        LevelData level = playerData.hub.GetLevelData(levelName);
-        if (level == null) return;
-
-        level.Collect(type);
-        //HUDManager.Instance.ShowCollectableCollected(type);
+        pendingCollectables.Add(type);
+        RefreshCollectablesOverlay();
     }
 
     public bool IsLevelCollectableCollected(CollectableType type, string levelName)
     {
+        if (pendingCollectables.Contains(type))
+        {
+            return true;
+        }
+
         LevelData level = playerData.hub.GetLevelData(levelName);
-        if (level == null) return false;
+
+        if (level == null)
+        {
+            return false;
+        }
+
         return level.IsCollected(type);
+    }
+
+    public void CommitLevelCollectables(string levelName)
+    {
+        LevelData level = playerData.hub.GetLevelData(levelName);
+        if (level == null)
+        {
+            return;
+        }
+
+        foreach (CollectableType type in pendingCollectables)
+        {
+            level.Collect(type);
+        }
+
+        pendingCollectables.Clear();
+    }
+
+    void RefreshCollectablesOverlay()
+    {
+        string levelName = SceneManager.GetActiveScene().name;
+        LevelData level = playerData.hub.GetLevelData(levelName);
+
+        foreach (CollectableType type in Enum.GetValues(typeof(CollectableType)))
+        {
+            bool isPending = pendingCollectables.Contains(type);
+            bool isCommitted = level != null && level.IsCollected(type);
+            //Debug.Log($"{type} - pending: {isPending}, committed: {isCommitted}");
+            HUDManager.Instance.UpdateCollectableIcon(type, isPending || isCommitted);
+        }
+
+        HUDManager.Instance.UpdateLives(playerData.currentLives);
+        HUDManager.Instance.ShowCollectablesOverlay(playerData.currentLumiberries, playerData.totalLumiberries);
     }
 
     public void StartNewGame()

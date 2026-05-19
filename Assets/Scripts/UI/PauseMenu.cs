@@ -29,6 +29,12 @@ public class PauseMenu : MonoBehaviour
 
     void OnPause(InputAction.CallbackContext ctx)
     {
+        if (optionsMenu.IsVisible)
+        {
+            optionsMenu.Hide();
+            return;
+        }
+
         if (isPaused) Resume();
         else Pause();
     }

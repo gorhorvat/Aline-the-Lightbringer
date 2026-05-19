@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class Portal : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.CommitLevelCollectables(SceneManager.GetActiveScene().name);
             GameManager.Instance.TryLoadLevel(targetLevel, Levels.GetLoadingMessage(targetLevel));
+        }
     }
 }

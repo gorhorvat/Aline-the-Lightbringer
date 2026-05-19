@@ -153,10 +153,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
-  m_Height: 2.25
+  m_Radius: 0.5
+  m_Height: 1.5
   m_Direction: 1
-  m_Center: {x: 0, y: 1.1, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &5099590443001998060
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -198,22 +198,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   normalSpeed: 5
   sprintSpeed: 10
-  fallMultiplier: 2.5
-  jumpSpeed: 6
-  jumpCutMultiplier: 0.5
+  jumpSpeed: 4
   rotationSpeed: 10
   attackRange: 1
   attackForce: 100
   attackUpwardForce: 20
   groundDistance: 0.2
+  fallMultiplier: 2.5
+  jumpCutMultiplier: 0.5
+  jumpApexGravityMultiplier: 0.6
   modelMesh: {fileID: 7576647868392254970}
+  groundCheck: {fileID: 3801067747222238807}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  groundCheck: {fileID: 3801067747222238807}
+  attackVFXPrefab: {fileID: 1721991726311022446, guid: b24e6717b5ba45841889234537209652, type: 3}
   playerFallDeathSfx: {fileID: 8300000, guid: 62dd87f1bdca27749b8405359b34513c, type: 3}
   playerEnemyDeathSfx: {fileID: 8300000, guid: da0f1609b7410784684b668ab94395b4, type: 3}
 --- !u!1 &2727611821926669016
@@ -241,7 +243,7 @@ Transform:
   m_GameObject: {fileID: 2727611821926669016}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

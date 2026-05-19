@@ -13,6 +13,7 @@ public abstract class LevelCollectable : BaseCollectable
 
     protected override void OnCollected()
     {
+        base.OnCollected();
         GameManager.Instance.CollectLevelCollectable(collectableType, SceneManager.GetActiveScene().name);
     }
 }

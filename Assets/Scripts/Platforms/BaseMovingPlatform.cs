@@ -4,6 +4,7 @@ public abstract class BaseMovingPlatform : MonoBehaviour
 {
     [SerializeField] protected float moveDistance = 5f;
     [SerializeField] protected float moveSpeed = 3f;
+    [SerializeField] protected bool reverse;
     [SerializeField] float smoothTime = 0.5f;
 
     protected Vector3 startPosition;

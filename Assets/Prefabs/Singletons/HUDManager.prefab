@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da4bda79f1411e4c9b2457163d11c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HUDManager
-  collectiblesOverlayPrefab: {fileID: 8733496490771488386, guid: 1cf51e99447fd1e4ea6ae93569d40550, type: 3}
+  collectablesOverlayPrefab: {fileID: 8733496490771488386, guid: 1cf51e99447fd1e4ea6ae93569d40550, type: 3}
   pauseMenuPrefab: {fileID: 1880825196080444798, guid: 89fa2cc1092854d4a981768810b1f600, type: 3}
   loadingScreenPrefab: {fileID: 7059843732678262756, guid: c85430e1959ff8840930737901f16ff2, type: 3}

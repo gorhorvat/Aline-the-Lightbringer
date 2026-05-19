@@ -5,30 +5,45 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float normalSpeed = 5f;
     [SerializeField] float sprintSpeed = 10f;
-    [SerializeField] float fallMultiplier = 2.5f;
-    [SerializeField] float jumpSpeed = 6f;
-    [SerializeField] float jumpCutMultiplier = 0.5f;
+
+    [SerializeField] float jumpSpeed = 4f;
     [SerializeField] float rotationSpeed = 10f;
+
     [SerializeField] float attackRange = 1f;
     [SerializeField] float attackForce = 100f;
     [SerializeField] float attackUpwardForce = 20f;
+
     [SerializeField] float groundDistance = 0.2f;
+
+    [Header("Jump Feel")]
+    [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float jumpCutMultiplier = 0.5f;
+    [SerializeField] float jumpApexGravityMultiplier = 0.6f;
+
     [SerializeField] Transform modelMesh;
+    [SerializeField] Transform groundCheck;
+
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] LayerMask groundMask;
-    [SerializeField] Transform groundCheck;
+
+    [SerializeField] GameObject attackVFXPrefab;
     [SerializeField] AudioClip playerFallDeathSfx;
     [SerializeField] AudioClip playerEnemyDeathSfx;
 
     PlayerInputActions inputActions;
+
     Rigidbody rb;
     Rigidbody currentPlatform;
     AudioSource playerSfxSource;
+
     Transform cam;
+
     Quaternion meshInitialRotation;
+
     Vector2 moveInput;
-    Vector3 velocity;
-    Vector3 facingDirection;
+    Vector3 facingDirection = Vector3.forward;
+    Vector3 groundNormal = Vector3.up;
+
     bool isGrounded;
     bool isJumping;
     bool isHoldingJump;
@@ -40,20 +55,24 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         inputActions = new PlayerInputActions();
         playerSfxSource = GetComponent<AudioSource>();
-        meshInitialRotation = modelMesh.localRotation;
-        facingDirection = Vector3.forward;
+
         cam = Camera.main.transform;
+        meshInitialRotation = modelMesh.localRotation;
     }
 
     void OnEnable()
     {
         inputActions.Player.Enable();
+
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
+
         inputActions.Player.Sprint.performed += OnSprint;
         inputActions.Player.Sprint.canceled += OnSprint;
+
         inputActions.Player.Jump.performed += OnJumpStarted;
         inputActions.Player.Jump.canceled += OnJumpCanceled;
+
         inputActions.Player.Attack.started += OnAttack;
     }
 
@@ -61,11 +80,15 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Player.Move.performed -= OnMove;
         inputActions.Player.Move.canceled -= OnMove;
+
         inputActions.Player.Sprint.performed -= OnSprint;
         inputActions.Player.Sprint.canceled -= OnSprint;
+
         inputActions.Player.Jump.performed -= OnJumpStarted;
         inputActions.Player.Jump.canceled -= OnJumpCanceled;
+
         inputActions.Player.Attack.started -= OnAttack;
+
         inputActions.Player.Disable();
     }
 
@@ -90,140 +113,244 @@ public class PlayerController : MonoBehaviour
 
     void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
-        if (isHoldingJump && rb.linearVelocity.y > 0)
-        {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y * jumpCutMultiplier, rb.linearVelocity.z);
-        }
-
         isHoldingJump = false;
+
+        // Early jump cut (tight hop control)
+        if (rb.linearVelocity.y > 0f)
+        {
+            rb.linearVelocity = new Vector3(
+                rb.linearVelocity.x,
+                rb.linearVelocity.y * jumpCutMultiplier,
+                rb.linearVelocity.z
+            );
+        }
     }
 
     void OnAttack(InputAction.CallbackContext ctx)
     {
-        Vector3 boxCenter = transform.position + facingDirection * attackRange + Vector3.up * 0.5f;
-        Vector3 boxHalfExtents = new Vector3(1f, 1f, attackRange) * 0.5f;
+        SpawnAttackVFX();
 
-        Collider[] hits = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.LookRotation(facingDirection), enemyLayer);
+        Vector3 boxCenter =
+            transform.position + facingDirection * attackRange + Vector3.up * 0.5f;
 
-        foreach (Collider hit in hits)
+        Vector3 boxHalfExtents =
+            new Vector3(1f, 1f, attackRange) * 0.5f;
+
+        Collider[] hits = Physics.OverlapBox(
+            boxCenter,
+            boxHalfExtents,
+            Quaternion.LookRotation(facingDirection),
+            enemyLayer
+        );
+
+        foreach (var hit in hits)
         {
-            if (hit.CompareTag("Enemy") && hit.TryGetComponent<BaseEnemy>(out BaseEnemy enemy))
+            if (hit.CompareTag("Enemy") &&
+                hit.TryGetComponent<BaseEnemy>(out BaseEnemy enemy))
             {
-                Vector3 direction = (hit.transform.position - transform.position).normalized;
-                direction.y = 0f;
-                Vector3 force = direction * attackForce + Vector3.up * attackUpwardForce;
+                Vector3 dir = hit.transform.position - transform.position;
+                dir.y = 0f;
+
+                Vector3 force =
+                    dir.normalized * attackForce +
+                    Vector3.up * attackUpwardForce;
+
                 enemy.GetHit(force);
             }
         }
     }
 
+    void SpawnAttackVFX()
+    {
+        if (attackVFXPrefab == null) return;
+
+        Vector3 spawnPos =
+            transform.position +
+            facingDirection * 1.0f +
+            Vector3.up * 0.5f;
+
+        Quaternion rot = Quaternion.LookRotation(facingDirection);
+
+        GameObject vfx = Instantiate(attackVFXPrefab, spawnPos, rot);
+
+        Destroy(vfx, 1f);
+    }
+
     void FixedUpdate()
     {
-        // set movement speed
-        float currentSpeed = isSprinting && isGrounded ? sprintSpeed : normalSpeed;
+        HandleGrounding();
 
-        // set camera-free movement
-        Vector3 cameraForward = cam.forward;
-        Vector3 cameraRight = cam.right;
+        Vector3 moveDirection = CalculateMoveDirection();
 
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
+        HandleRotation(moveDirection);
 
-        cameraForward.Normalize();
-        cameraRight.Normalize();
+        Vector3 velocity = CalculateVelocity(moveDirection);
 
-        Vector3 moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+        velocity = HandlePlatformInfluence(velocity);
 
-        velocity = moveDirection * currentSpeed;
-        velocity.y = rb.linearVelocity.y;
+        velocity = ApplyGravity(velocity);
 
-        // jump
+        ApplyMovement(velocity);
+
+        HandleDeath();
+    }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Water"))
+    //    {
+    //        Die(DamageType.Hazard);
+    //    }
+    //}
+
+    void HandleGrounding()
+    {
+        isGrounded = Physics.CheckSphere(
+            groundCheck.position,
+            groundDistance,
+            groundMask
+        );
+
+        if (Physics.Raycast(
+            groundCheck.position,
+            Vector3.down,
+            out RaycastHit hit,
+            groundDistance + 0.3f,
+            groundMask))
+        {
+            groundNormal = hit.normal;
+        }
+        else
+        {
+            groundNormal = Vector3.up;
+        }
+    }
+
+    Vector3 CalculateMoveDirection()
+    {
+        Vector3 camForward = cam.forward;
+        Vector3 camRight = cam.right;
+
+        camForward.y = 0f;
+        camRight.y = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        return camForward * moveInput.y + camRight * moveInput.x;
+    }
+
+    void HandleRotation(Vector3 moveDirection)
+    {
+        if (moveDirection.sqrMagnitude < 0.01f)
+            return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+        modelMesh.rotation = Quaternion.Slerp(
+            modelMesh.rotation,
+            targetRotation * meshInitialRotation,
+            Time.fixedDeltaTime * rotationSpeed
+        );
+
+        facingDirection = moveDirection.normalized;
+    }
+
+    Vector3 CalculateVelocity(Vector3 moveDirection)
+    {
+        float speed =
+            isSprinting && isGrounded ? sprintSpeed : normalSpeed;
+
+        Vector3 horizontal =
+            isGrounded
+                ? Vector3.ProjectOnPlane(moveDirection, groundNormal)
+                : moveDirection;
+
+        horizontal *= speed;
+
+        Vector3 vel = rb.linearVelocity;
+
         if (isJumping)
         {
-            velocity.y = jumpSpeed;
+            vel.y = jumpSpeed;
             isJumping = false;
         }
 
-        // rotate based on input only, before adding platform velocity
-        Vector3 inputVelocity = moveDirection;
-        if (inputVelocity.magnitude > 0.1f)
-        {
-            Quaternion targetRotation =
-                Quaternion.LookRotation(inputVelocity);
+        return new Vector3(horizontal.x, vel.y, horizontal.z);
+    }
 
-            modelMesh.rotation = Quaternion.Slerp(
-                modelMesh.rotation,
-                targetRotation * meshInitialRotation,
-                Time.fixedDeltaTime * rotationSpeed
+    Vector3 HandlePlatformInfluence(Vector3 vel)
+    {
+        if (currentPlatform != null && isGrounded)
+        {
+            vel += new Vector3(
+                currentPlatform.linearVelocity.x,
+                0f,
+                currentPlatform.linearVelocity.z
             );
-
-            facingDirection = inputVelocity.normalized;
         }
 
-        // add platform velocity after rotation
-        if (currentPlatform != null)
+        return vel;
+    }
+
+    Vector3 ApplyGravity(Vector3 vel)
+    {
+        if (vel.y > 0f)
         {
-            Vector3 platformVelocity = currentPlatform.linearVelocity;
-            velocity.x += platformVelocity.x;
-            velocity.z += platformVelocity.z;
+            if (isHoldingJump)
+            {
+                // softer gravity → higher jump if holding
+                vel.y += Physics.gravity.y * (jumpApexGravityMultiplier - 1f) * Time.fixedDeltaTime;
+            }
+            else
+            {
+                // stronger gravity → short hop feel
+                vel.y += Physics.gravity.y * (fallMultiplier - 1f) * Time.fixedDeltaTime;
+            }
         }
-
-        // move player
-        rb.linearVelocity = velocity;
-
-        // apply fall multiplier
-        if (rb.linearVelocity.y < 0)
+        else if (vel.y < 0f)
         {
-            rb.linearVelocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+            vel.y += Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;
         }
 
-        GroundCheck();
+        return vel;
+    }
 
+    void ApplyMovement(Vector3 vel)
+    {
+        rb.linearVelocity = vel;
+    }
+
+    void HandleDeath()
+    {
         if (!isDead && Utils.IsBelowKillPlane(transform.position))
         {
             Die(DamageType.Fall);
         }
     }
 
-    void OnDrawGizmosSelected()
+    public void SetCurrentPlatform(Rigidbody platform)
     {
-        Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(
-            transform.position + facingDirection * attackRange + Vector3.up * 0.5f,
-            Quaternion.LookRotation(facingDirection),
-            Vector3.one
-        );
-        Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, attackRange));
-
-        //Gizmos.color = Color.red;
-
-        //Gizmos.DrawWireSphere(
-        //    groundCheck.position,
-        //    groundDistance
-        //);
+        currentPlatform = platform;
     }
 
-    void GroundCheck()
+    public void Die(DamageType type)
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-    }
+        if (isDead) return;
 
-    public void Die(DamageType damageType)
-    {
         isDead = true;
-        playerSfxSource.clip = damageType switch
+
+        playerSfxSource.clip = type switch
         {
             DamageType.Fall => playerFallDeathSfx,
+            DamageType.Hazard => playerFallDeathSfx,
             DamageType.Enemy => playerEnemyDeathSfx,
             _ => null
         };
 
-        playerSfxSource.Play();
-        GameManager.Instance.LoseLife();
-    }
+        if (playerSfxSource.clip != null)
+            playerSfxSource.Play();
 
-    public void SetCurrentPlatform(Rigidbody rb)
-    {
-        currentPlatform = rb;
+        GameManager.Instance.LoseLife();
     }
 }
