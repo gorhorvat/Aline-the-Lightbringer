@@ -195,13 +195,13 @@ public class PlayerController : MonoBehaviour
         HandleDeath();
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Water"))
-    //    {
-    //        Die(DamageType.Hazard);
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            Die(DamageType.Hazard);
+        }
+    }
 
     void HandleGrounding()
     {

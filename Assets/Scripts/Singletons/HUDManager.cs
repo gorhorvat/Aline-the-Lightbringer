@@ -45,7 +45,7 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateCollectableIcon(CollectableType type, bool isActive)
     {
-        collectablesOverlay.UpdateCollectableIcons(type, isActive);
+        collectablesOverlay.UpdateCollectableIcon(type, isActive);
     }
 
     IEnumerator HideCollectiblesOverlay()

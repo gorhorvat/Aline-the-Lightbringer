@@ -53,13 +53,18 @@ public class GameManager : MonoBehaviour
 
     public bool IsLevelUnlocked(string levelName)
     {
-        LevelData level = playerData.hub.GetLevelData(levelName);
+        LevelData level = GetLevelData(levelName);
         if (level != null) return level.isUnlocked;
 
         ZoneData zone = playerData.hub.GetZoneData(levelName);
         if (zone != null) return zone.isUnlocked;
 
         return true; // hub and other scenes always accessible
+    }
+
+    public LevelData GetLevelData(string levelName)
+    {
+        return playerData.hub.GetLevelData(levelName);
     }
 
     public void LoadLevel(string levelName, string message, bool clearPendingCollectables = true)
@@ -150,7 +155,7 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
-        LevelData level = playerData.hub.GetLevelData(levelName);
+        LevelData level = GetLevelData(levelName);
 
         if (level == null)
         {
@@ -162,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     public void CommitLevelCollectables(string levelName)
     {
-        LevelData level = playerData.hub.GetLevelData(levelName);
+        LevelData level = GetLevelData(levelName);
         if (level == null)
         {
             return;
@@ -179,7 +184,7 @@ public class GameManager : MonoBehaviour
     void RefreshCollectablesOverlay()
     {
         string levelName = SceneManager.GetActiveScene().name;
-        LevelData level = playerData.hub.GetLevelData(levelName);
+        LevelData level = GetLevelData(levelName);
 
         foreach (CollectableType type in Enum.GetValues(typeof(CollectableType)))
         {
