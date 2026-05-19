@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 8659459954085605003}
   - component: {fileID: 2470337951533869041}
   - component: {fileID: 5818687609856513896}
-  - component: {fileID: 965450369679012236}
+  - component: {fileID: 2740105226603869196}
   m_Layer: 0
   m_Name: PortalArch
   m_TagString: Untagged
@@ -236,7 +236,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7923108595916513966}
-  m_Mesh: {fileID: 8253715566474182405, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
+  m_Mesh: {fileID: -1950190599711072541, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
 --- !u!23 &2470337951533869041
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 969368519672494118, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
+  - {fileID: -3562654150562767354, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -383,7 +383,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!64 &965450369679012236
+--- !u!64 &2740105226603869196
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -404,7 +404,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 8253715566474182405, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
+  m_Mesh: {fileID: -1950190599711072541, guid: f8603cf4eea841c4ab796d4a49378b38, type: 3}
 --- !u!1 &8445503268766150982
 GameObject:
   m_ObjectHideFlags: 0

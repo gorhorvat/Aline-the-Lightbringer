@@ -25,7 +25,7 @@ public abstract class BaseCollectable : MonoBehaviour
 
             if (collectableCollectedSfx != null)
             {
-                AudioSource.PlayClipAtPoint(collectableCollectedSfx.clip, transform.position);
+                AudioManager.Instance.PlaySfx(collectableCollectedSfx.clip, transform.position);
             }
 
             Destroy(gameObject);

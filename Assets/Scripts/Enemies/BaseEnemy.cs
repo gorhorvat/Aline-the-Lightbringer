@@ -3,7 +3,6 @@ using UnityEngine;
 public abstract class BaseEnemy : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 3f;
-    [SerializeField] float stoppingDistance = 0.5f;
     [SerializeField] float rotationSpeed = 10f;
 
     protected Rigidbody rb;
@@ -46,15 +45,7 @@ public abstract class BaseEnemy : MonoBehaviour
     void MoveTowards(Vector3 target)
     {
         Vector3 direction = (target - transform.position);
-        Vector3 flatDirection = new Vector3(direction.x, 0f, direction.z);
-
-        if (flatDirection.magnitude <= stoppingDistance)
-        {
-            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-            return;
-        }
-
-        flatDirection.Normalize();
+        Vector3 flatDirection = new Vector3(direction.x, 0f, direction.z).normalized;
 
         rb.linearVelocity = new Vector3(
             flatDirection.x * moveSpeed,

@@ -133,8 +133,8 @@ GameObject:
   - component: {fileID: 6478708290927002546}
   - component: {fileID: 8879249980582914180}
   - component: {fileID: 4182125373250955454}
-  - component: {fileID: 5637035967645539027}
   - component: {fileID: 5784580881990805380}
+  - component: {fileID: 8569944248712127677}
   m_Layer: 0
   m_Name: PortalArch
   m_TagString: Untagged
@@ -168,7 +168,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2532856682604514901}
-  m_Mesh: {fileID: 7710696271456875049, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
+  m_Mesh: {fileID: 3643843060936731639, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
 --- !u!23 &4182125373250955454
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 788130446895038898, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
+  - {fileID: -3288224656467375309, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,28 +218,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5637035967645539027
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2532856682604514901}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7710696271456875049, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
 --- !u!82 &5784580881990805380
 AudioSource:
   m_ObjectHideFlags: 0
@@ -337,6 +315,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!64 &8569944248712127677
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532856682604514901}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3643843060936731639, guid: 95746acdd5b336c40ac7dbd5069d595a, type: 3}
 --- !u!1 &6784350077165807090
 GameObject:
   m_ObjectHideFlags: 0
@@ -5249,6 +5249,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6478708290927002546}
     m_Modifications:
+    - target: {fileID: 166367600481681165, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 278750498924383296, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5289,6 +5293,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 466100914520533528, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 676833405396909816, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 927906778415090785, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3244719176472859475, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
       propertyPath: levelName
       value: 
@@ -5298,6 +5314,10 @@ PrefabInstance:
       value: PortalInfo
       objectReference: {fileID: 0}
     - target: {fileID: 5795934331145765383, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137540814003468162, guid: 947b3767e139f1543adb59965a8b8eff, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

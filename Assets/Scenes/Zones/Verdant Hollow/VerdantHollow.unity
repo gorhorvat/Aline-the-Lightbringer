@@ -4412,8 +4412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e74e42f93321f4184d1edd88ac1788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  chaseEnemyPrefab: {fileID: 1027189942783164266, guid: 0d2ec9d1e37c6a34e809a86c0b597074, type: 3}
-  patrolEnemyPrefab: {fileID: 2007240232192209572, guid: 8d0b86102112bd8418d86a1563d272c0, type: 3}
+  chaseEnemyPrefab: {fileID: 9141706711958871532, guid: 0d2ec9d1e37c6a34e809a86c0b597074, type: 3}
+  patrolEnemyPrefab: {fileID: 4658452859710476008, guid: 8d0b86102112bd8418d86a1563d272c0, type: 3}
+  spawnPoint: {fileID: 0}
+  patrolPoints: []
   spawnInterval: 1
   autoSpawn: 0
 --- !u!1 &1971008082

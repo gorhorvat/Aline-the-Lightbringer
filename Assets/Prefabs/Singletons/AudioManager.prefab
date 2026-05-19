@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioMixer: {fileID: 24100000, guid: a343a58a3980bc84286b57966569b7d6, type: 2}
+  sfxMixerGroup: {fileID: -2963733024226753011, guid: a343a58a3980bc84286b57966569b7d6, type: 2}
   audioSettings: {fileID: 11400000, guid: de106daeef50dad47861e890bef4de5a, type: 2}

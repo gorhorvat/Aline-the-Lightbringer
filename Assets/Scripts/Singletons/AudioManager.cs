@@ -6,6 +6,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [SerializeField] AudioMixer audioMixer;
+    [SerializeField] AudioMixerGroup sfxMixerGroup;
+
     public AudioSettings audioSettings;
 
     void Awake()
@@ -18,7 +20,14 @@ public class AudioManager : MonoBehaviour
 
         Instance = this;
 
+        DontDestroyOnLoad(gameObject);
+
         ApplySettings();
+    }
+
+    float ToDecibels(float value)
+    {
+        return Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20f;
     }
 
     public void ApplySettings()
@@ -30,16 +39,32 @@ public class AudioManager : MonoBehaviour
 
     public void SetMasterVolume(float value)
     {
-        audioMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20);
+        audioMixer.SetFloat("MasterVolume", ToDecibels(value));
     }
 
     public void SetMusicVolume(float value)
     {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
+        audioMixer.SetFloat("MusicVolume", ToDecibels(value));
+
     }
 
     public void SetSfxVolume(float value)
     {
-        audioMixer.SetFloat("SfxVolume", Mathf.Log10(value) * 20);
+        audioMixer.SetFloat("SfxVolume", ToDecibels(value));
+    }
+
+    public void PlaySfx(AudioClip clip, Vector3 position)
+    {
+        GameObject obj = new GameObject("TempSFX");
+
+        obj.transform.position = position;
+
+        AudioSource source = obj.AddComponent<AudioSource>();
+
+        source.clip = clip;
+        source.outputAudioMixerGroup = sfxMixerGroup;
+        source.Play();
+
+        Destroy(obj, clip.length);
     }
 }

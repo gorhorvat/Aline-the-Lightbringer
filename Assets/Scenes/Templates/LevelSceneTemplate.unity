@@ -467,6 +467,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a42172bbc72aa647972bd57e0f73f5a, type: 3}
+--- !u!1 &1030898381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1030898382}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1030898382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030898381}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7, z: 7.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1868327109}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1245408146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2018,6 +2049,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80071fe7ef0b87045b8d715b761725d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneBootstrapper
+--- !u!1 &1868327108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1868327109}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1868327109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868327108}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1030898382}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1883177140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2151,8 +2214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e74e42f93321f4184d1edd88ac1788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  chaseEnemyPrefab: {fileID: 1027189942783164266, guid: 0d2ec9d1e37c6a34e809a86c0b597074, type: 3}
-  patrolEnemyPrefab: {fileID: 2007240232192209572, guid: 8d0b86102112bd8418d86a1563d272c0, type: 3}
+  chaseEnemyPrefab: {fileID: 9141706711958871532, guid: 0d2ec9d1e37c6a34e809a86c0b597074, type: 3}
+  patrolEnemyPrefab: {fileID: 4658452859710476008, guid: 8d0b86102112bd8418d86a1563d272c0, type: 3}
+  spawnPoint: {fileID: 1030898382}
+  patrolPoints: []
   spawnInterval: 1
   autoSpawn: 0
 --- !u!1660057539 &9223372036854775807
@@ -2167,4 +2232,5 @@ SceneRoots:
   - {fileID: 301405191}
   - {fileID: 1356713727}
   - {fileID: 858391942}
+  - {fileID: 1868327109}
   - {fileID: 815428056}

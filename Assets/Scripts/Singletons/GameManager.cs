@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //Cursor.lockState = CursorLockMode.Locked;
+
         HUDManager.Instance.UpdateLives(playerData.currentLives);
     }
 
