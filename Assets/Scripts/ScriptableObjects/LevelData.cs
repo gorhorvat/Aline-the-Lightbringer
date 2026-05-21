@@ -4,21 +4,33 @@ using UnityEngine;
 public class LevelData : ScriptableObject
 {
     public bool isUnlocked;
+
+    public bool hasBeaconCrystal = true;
     public bool beaconCrystalCollected;
+
+    public bool hasChronoFeather = true;
+    public float chronoFeatherTargetTime;
+    public float chronoFeatherBestTime;
     public bool chronoFeatherCollected;
+    
+    public bool hasRadiantEmblem = true;
     public bool radiantEmblemCollected;
+    
+    public bool hasAncientOwlRelic;
     public bool ancientOwlRelicCollected;
+    
+    public bool hasStarShard;
     public bool starShardCollected;
 
     public bool IsCollected(CollectableType type)
     {
         return type switch
         {
-            CollectableType.BeaconCrystal => beaconCrystalCollected,
-            CollectableType.ChronoFeather => chronoFeatherCollected,
-            CollectableType.RadiantEmblem => radiantEmblemCollected,
-            CollectableType.AncientOwlRelic => ancientOwlRelicCollected,
-            CollectableType.StarShard => starShardCollected,
+            CollectableType.BeaconCrystal => hasBeaconCrystal && beaconCrystalCollected,
+            CollectableType.ChronoFeather => hasChronoFeather && chronoFeatherCollected,
+            CollectableType.RadiantEmblem => hasRadiantEmblem && radiantEmblemCollected,
+            CollectableType.AncientOwlRelic => hasAncientOwlRelic && ancientOwlRelicCollected,
+            CollectableType.StarShard => hasStarShard && starShardCollected,
             _ => false
         };
     }
@@ -39,6 +51,7 @@ public class LevelData : ScriptableObject
     {
         beaconCrystalCollected = false;
         chronoFeatherCollected = false;
+        chronoFeatherBestTime = 0f;
         radiantEmblemCollected = false;
         ancientOwlRelicCollected = false;
         starShardCollected = false;

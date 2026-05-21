@@ -53,15 +53,16 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat("SfxVolume", ToDecibels(value));
     }
 
-    public void PlaySfx(AudioClip clip, Vector3 position)
+    public void PlaySfx(AudioClip clip, Vector3 position, float volume = 1f)
     {
-        GameObject obj = new GameObject("TempSFX");
+        GameObject obj = new("TempSFX");
 
         obj.transform.position = position;
 
         AudioSource source = obj.AddComponent<AudioSource>();
 
         source.clip = clip;
+        source.volume = volume;
         source.outputAudioMixerGroup = sfxMixerGroup;
         source.Play();
 

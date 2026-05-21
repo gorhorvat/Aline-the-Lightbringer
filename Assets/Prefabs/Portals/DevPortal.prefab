@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 750733694152027664}
-  - component: {fileID: 5611623031449286457}
   - component: {fileID: 681619803041795849}
   - component: {fileID: 3956595116241541392}
   m_Layer: 0
@@ -34,29 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4522684184558530163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5611623031449286457
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3407906575741070180}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.09
-  m_Height: 2.97
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.18, z: 0}
 --- !u!65 &681619803041795849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 1.19, z: 1}
-  m_Center: {x: 0, y: -1.15, z: 0}
+  m_Size: {x: 3, y: 3, z: 0.4}
+  m_Center: {x: 0, y: -0.84, z: 0}
 --- !u!114 &3956595116241541392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4288,7 +4264,6 @@ GameObject:
   - component: {fileID: 3097219529776617011}
   - component: {fileID: 412100338368593137}
   - component: {fileID: 9082644108010345485}
-  - component: {fileID: 8837725468614783852}
   m_Layer: 0
   m_Name: PortalSurface
   m_TagString: Untagged
@@ -8333,28 +8308,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4407436025551796331}
-  m_Mesh: {fileID: 0}
---- !u!64 &8837725468614783852
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4407436025551796331}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &6188846643190625718
 GameObject:

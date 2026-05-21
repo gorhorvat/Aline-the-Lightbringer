@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc755f46be0665419e8f94314eb9a81, type: 3}
   m_Name: TheBioluminescentDeep
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelName: TheBioluminescentDeep
+  isUnlocked: 0
+  hasBeaconCrystal: 1
   beaconCrystalCollected: 0
+  hasChronoFeather: 1
   chronoFeatherCollected: 0
+  hasRadiantEmblem: 1
   radiantEmblemCollected: 0
+  hasAncientOwlRelic: 0
   ancientOwlRelicCollected: 0
+  hasStarShard: 0
   starShardCollected: 0

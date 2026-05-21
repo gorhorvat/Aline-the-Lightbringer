@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: MossglowCanopy
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   isUnlocked: 1
+  hasBeaconCrystal: 1
   beaconCrystalCollected: 0
+  hasChronoFeather: 1
+  chronoFeatherTargetTime: 60
+  chronoFeatherBestTime: 0
   chronoFeatherCollected: 0
+  hasRadiantEmblem: 1
   radiantEmblemCollected: 0
+  hasAncientOwlRelic: 1
   ancientOwlRelicCollected: 0
+  hasStarShard: 1
   starShardCollected: 0

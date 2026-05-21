@@ -4,13 +4,8 @@ public abstract class BaseCollectable : MonoBehaviour
 {
     [SerializeField] float rotationSpeed = 90f;
     [SerializeField] protected GameObject collectedVFXPrefab;
-
-    protected AudioSource collectableCollectedSfx;
-
-    private void Awake()
-    {
-        collectableCollectedSfx = GetComponent<AudioSource>();
-    }
+    [SerializeField] protected AudioClip collectableCollectedSfx;
+    [SerializeField] protected float effectVolume = 1f;
 
     void Update()
     {
@@ -25,7 +20,7 @@ public abstract class BaseCollectable : MonoBehaviour
 
             if (collectableCollectedSfx != null)
             {
-                AudioManager.Instance.PlaySfx(collectableCollectedSfx.clip, transform.position);
+                AudioManager.Instance.PlaySfx(collectableCollectedSfx, transform.position, effectVolume);
             }
 
             Destroy(gameObject);

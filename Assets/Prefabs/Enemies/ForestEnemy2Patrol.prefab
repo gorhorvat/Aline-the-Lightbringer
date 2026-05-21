@@ -82,5 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolEnemy
   moveSpeed: 3
-  stoppingDistance: 0.5
   rotationSpeed: 10
+  enemyDeathSfx: {fileID: 8300000, guid: 0dc814b08bf584047b848dc1cddf0754, type: 3}
+  effectVolume: 0.5

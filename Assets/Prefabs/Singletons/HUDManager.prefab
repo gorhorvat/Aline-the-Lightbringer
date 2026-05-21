@@ -45,5 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HUDManager
   collectablesOverlayPrefab: {fileID: 8733496490771488386, guid: 1cf51e99447fd1e4ea6ae93569d40550, type: 3}
+  timeTrialOverlayPrefab: {fileID: 835131474624505256, guid: 41c49782bcca72b48b5dba513ae25185, type: 3}
   pauseMenuPrefab: {fileID: 1880825196080444798, guid: 89fa2cc1092854d4a981768810b1f600, type: 3}
   loadingScreenPrefab: {fileID: 7059843732678262756, guid: c85430e1959ff8840930737901f16ff2, type: 3}
+  radiantEmblemRewardScreenPrefab: {fileID: 3676479488056318687, guid: 9333378d065146341a283b401a74b5f7, type: 3}
+  chronoFeatherRewardScreenPrefab: {fileID: 7796111394126859115, guid: 6c94a00588c72f54fb153203d217f406, type: 3}

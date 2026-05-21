@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: EmbervineThicket
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   isUnlocked: 0
+  hasBeaconCrystal: 1
   beaconCrystalCollected: 0
+  hasChronoFeather: 1
   chronoFeatherCollected: 0
+  hasRadiantEmblem: 1
   radiantEmblemCollected: 0
+  hasAncientOwlRelic: 0
   ancientOwlRelicCollected: 0
+  hasStarShard: 0
   starShardCollected: 0

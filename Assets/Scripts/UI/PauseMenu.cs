@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,11 +10,18 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] OptionsMenu optionsMenu;
 
     PlayerInputActions inputActions;
+    TMP_Text returnToHubText;
     bool isPaused;
 
     void Awake()
     {
         inputActions = new PlayerInputActions();
+        returnToHubText = returnToHubButton.GetComponentInChildren<TMP_Text>();
+    }
+
+    private void Update()
+    {
+        returnToHubText.text = $"Return to {GameManager.Instance.GetCurrentZone().Value}";
     }
 
     void OnEnable()
@@ -62,7 +71,7 @@ public class PauseMenu : MonoBehaviour
     public void ReturnToHub()
     {
         Time.timeScale = 1f;
-        GameManager.Instance.LoadLevel(Levels.LuminaGrove, Levels.GetLoadingMessage(Levels.LuminaGrove));
+        GameManager.Instance.ReturnToZone();
     }
 
     public void QuitGame()

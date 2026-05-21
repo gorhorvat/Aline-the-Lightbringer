@@ -4,9 +4,10 @@ public abstract class BaseEnemy : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] AudioClip enemyDeathSfx;
+    [SerializeField] float effectVolume = 1f;
 
     protected Rigidbody rb;
-    AudioSource enemyDeathSfx;
     Transform modelMesh;
     Quaternion meshInitialRotation;
     bool isHit;
@@ -14,7 +15,6 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        enemyDeathSfx = GetComponent<AudioSource>();
         modelMesh = GetComponentInChildren<MeshRenderer>().transform;
         meshInitialRotation = modelMesh.localRotation;
     }
@@ -68,10 +68,7 @@ public abstract class BaseEnemy : MonoBehaviour
         // disable any enemy movement/AI so it stops fighting the physics
         enabled = false;
 
-        if (enemyDeathSfx != null)
-        {
-            enemyDeathSfx.Play();
-        }
+        AudioManager.Instance.PlaySfx(enemyDeathSfx, transform.position, effectVolume);
 
         if (TryGetComponent<Rigidbody>(out Rigidbody rb))
         {

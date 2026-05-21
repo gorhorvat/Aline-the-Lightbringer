@@ -29,12 +29,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject attackVFXPrefab;
     [SerializeField] AudioClip playerFallDeathSfx;
     [SerializeField] AudioClip playerEnemyDeathSfx;
+    [SerializeField] float deathEffectVolume = 1f;
 
     PlayerInputActions inputActions;
 
     Rigidbody rb;
     Rigidbody currentPlatform;
-    AudioSource playerSfxSource;
 
     Transform cam;
 
@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         inputActions = new PlayerInputActions();
-        playerSfxSource = GetComponent<AudioSource>();
 
         cam = Camera.main.transform;
         meshInitialRotation = modelMesh.localRotation;
@@ -340,7 +339,7 @@ public class PlayerController : MonoBehaviour
 
         isDead = true;
 
-        playerSfxSource.clip = type switch
+        AudioClip deathSfx = type switch
         {
             DamageType.Fall => playerFallDeathSfx,
             DamageType.Hazard => playerFallDeathSfx,
@@ -348,8 +347,7 @@ public class PlayerController : MonoBehaviour
             _ => null
         };
 
-        if (playerSfxSource.clip != null)
-            playerSfxSource.Play();
+        AudioManager.Instance.PlaySfx(deathSfx, transform.position, deathEffectVolume);
 
         GameManager.Instance.LoseLife();
     }

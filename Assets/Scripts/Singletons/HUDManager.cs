@@ -6,13 +6,18 @@ public class HUDManager : MonoBehaviour
     public static HUDManager Instance { get; private set; }
 
     [SerializeField] CollectablesOverlay collectablesOverlayPrefab;
+    [SerializeField] TimeTrialOverlay timeTrialOverlayPrefab;
     [SerializeField] PauseMenu pauseMenuPrefab;
     [SerializeField] LoadingScreen loadingScreenPrefab;
-
+    [SerializeField] RadiantEmblemRewardScreen radiantEmblemRewardScreenPrefab;
+    [SerializeField] ChronoFeatherRewardScreen chronoFeatherRewardScreenPrefab;
 
     Coroutine hideCoroutine;
     CollectablesOverlay collectablesOverlay;
+    TimeTrialOverlay timeTrialOverlay;
     LoadingScreen loadingScreen;
+    RadiantEmblemRewardScreen radiantEmblemRewardScreen;
+    ChronoFeatherRewardScreen chronoFeatherRewardScreen;
     float displayDuration = 5f;
 
     void Awake()
@@ -26,10 +31,11 @@ public class HUDManager : MonoBehaviour
         Instance = this;
 
         collectablesOverlay = Instantiate(collectablesOverlayPrefab);
+        timeTrialOverlay = Instantiate(timeTrialOverlayPrefab);
         loadingScreen = Instantiate(loadingScreenPrefab);
+        radiantEmblemRewardScreen = Instantiate(radiantEmblemRewardScreenPrefab);
+        chronoFeatherRewardScreen = Instantiate(chronoFeatherRewardScreenPrefab);
         Instantiate(pauseMenuPrefab);
-
-        collectablesOverlay.Hide();
     }
 
     public void ShowCollectablesOverlay(int currentLumiberries, int totalLumiberries)
@@ -43,10 +49,7 @@ public class HUDManager : MonoBehaviour
         hideCoroutine = StartCoroutine(HideCollectiblesOverlay());
     }
 
-    public void UpdateCollectableIcon(CollectableType type, bool isActive)
-    {
-        collectablesOverlay.UpdateCollectableIcon(type, isActive);
-    }
+    public void UpdateCollectableIcon(CollectableType type, bool isActive) => collectablesOverlay.UpdateCollectableIcon(type, isActive);
 
     IEnumerator HideCollectiblesOverlay()
     {
@@ -55,11 +58,23 @@ public class HUDManager : MonoBehaviour
         hideCoroutine = null;
     }
 
+    public void ShowTimeTrialOverlay() => timeTrialOverlay.Show();
+
+    public void HideTimeTrialOverlay() => timeTrialOverlay.Hide();
+
+    public void UpdateTimer(float currentTime) => timeTrialOverlay.UpdateTimer(currentTime);
+
+    public void ShowRadiantEmblemRewardPanel(string levelName, string targetLevel) => radiantEmblemRewardScreen.Show(levelName, targetLevel);
+
+    public void CloseRadiantEmblemRewardPanel() => radiantEmblemRewardScreen.Hide();
+
+    public void ShowChronoFeatherRewardPanel(string levelName, float finalTime, string targetLevel) => chronoFeatherRewardScreen.Show(levelName, finalTime, targetLevel);
+
+    public void CloseChronoFeatherRewardPanel() => chronoFeatherRewardScreen.Hide();
+
     public void ShowLoadingScreen(string message) => loadingScreen.Show(message);
+
     public void HideLoadingScreen() => loadingScreen.Hide();
 
-    public void UpdateLives(int lives)
-    {
-        collectablesOverlay.UpdateLives(lives);
-    }
+    public void UpdateLives(int lives) => collectablesOverlay.UpdateLives(lives);
 }

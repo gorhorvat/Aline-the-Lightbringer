@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerData: {fileID: 11400000, guid: b188823ffadf7ab4c9f6378dce50ecfb, type: 2}
-  loadingScreenPrefab: {fileID: 7059843732678262756, guid: c85430e1959ff8840930737901f16ff2, type: 3}
+  extraLifeSfx: {fileID: 8300000, guid: 12992a7107863854897a9e6c48009079, type: 3}
+  effectVolume: 0.5
 --- !u!1 &8745219019722717877
 GameObject:
   m_ObjectHideFlags: 0

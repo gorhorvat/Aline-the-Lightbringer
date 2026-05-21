@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class Levels
 {
@@ -47,7 +46,7 @@ public static class Levels
         public const string Zone = "Shadowmere";
     }
 
-    static readonly Dictionary<string, string> loadingMessages = new Dictionary<string, string>
+    static readonly Dictionary<string, string> levelsDictionary = new()
     {
         { LuminaGrove, "Lumina Grove" },
         { Dev.Zone, "Dev" },
@@ -66,13 +65,51 @@ public static class Levels
         { Shadowmere.Zone, "Shadowmere" },
     };
 
+    static readonly Dictionary<string, string> levelToZoneDictionary = new()
+{
+    { LuminaGrove, LuminaGrove },
+
+    { Dev.Zone, Dev.Zone },
+    { Dev.MechanicsDemo, Dev.Zone },
+
+    { VerdantHollow.Zone, VerdantHollow.Zone },
+    { VerdantHollow.MossglowCanopy, VerdantHollow.Zone },
+    { VerdantHollow.ThornwallRuins, VerdantHollow.Zone },
+    { VerdantHollow.TheBioluminescentDeep, VerdantHollow.Zone },
+    { VerdantHollow.RootbridgeCrossing, VerdantHollow.Zone },
+    { VerdantHollow.EmbervineThicket, VerdantHollow.Zone },
+    { VerdantHollow.VerdantHollowHeart, VerdantHollow.Zone },
+
+    { ColdspireReach.Zone, ColdspireReach.Zone },
+
+    { Embervault.Zone, "Embervault" },
+
+    { Skyveil.Zone, "Skyveil" },
+
+    { Solhaven.Zone, "Solhaven" },
+
+    { Shadowmere.Zone, "Shadowmere" }
+};
+
     public static string GetLoadingMessage(string levelName)
     {
-        return loadingMessages.TryGetValue(levelName, out string message) ? $"Loading {message}" : "Loading...";
+        return levelsDictionary.TryGetValue(levelName, out string message) ? $"Loading {message}" : "Loading...";
     }
 
     public static string GetDisplayValue(string levelName)
     {
-        return loadingMessages.GetValueOrDefault(levelName, "Loading...");
+        return levelsDictionary.GetValueOrDefault(levelName, "Loading...");
+    }
+
+    public static KeyValuePair<string, string> GetZoneForLevel(string levelKey)
+    {
+        string currentZone = LuminaGrove;
+        if (levelToZoneDictionary.TryGetValue(levelKey, out string zoneKey))
+        {
+            if (!levelKey.Equals(zoneKey))
+                currentZone = zoneKey;
+        }
+
+        return new KeyValuePair<string, string>(currentZone, GetDisplayValue(currentZone));
     }
 }
