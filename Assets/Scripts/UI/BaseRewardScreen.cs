@@ -5,6 +5,8 @@ public abstract class BaseRewardScreen : MonoBehaviour
 {
     [SerializeField] protected GameObject panel;
     [SerializeField] protected TMP_Text rewardText;
+    [SerializeField] protected AudioClip rewardSfx;
+    [SerializeField] protected float effectVolume;
 
     protected string levelToRedirect;
 
@@ -12,6 +14,7 @@ public abstract class BaseRewardScreen : MonoBehaviour
     {
         rewardText.text = message;
         panel.SetActive(true);
+        AudioManager.Instance.PlaySfx(rewardSfx, transform.position, effectVolume);
         levelToRedirect = targetLevel;
     }
 

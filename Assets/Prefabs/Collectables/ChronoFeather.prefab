@@ -72,7 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChronoFeather
   rotationSpeed: 90
   collectedVFXPrefab: {fileID: 2733072225343874403, guid: f777de0b627344347999efa6cf5aaf36, type: 3}
-  collectableCollectedSfx: {fileID: 8300000, guid: 4317ac94bf3dadc4eaa4777fd8d8c9c9, type: 3}
+  collectableCollectedSfx: {fileID: 8300000, guid: 52b138cc81a83c643ada73f54ad044f9, type: 3}
   effectVolume: 1
   collectableType: 1
 --- !u!1001 &2355000408612989908

@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     float minimumLoadTime = 2f;
     bool isLevelLoading;
     bool isDeathless = true;
-    bool isTimeTrialActive;
+    public bool isTimeTrialActive;
     float currentLevelTime;
     float finalLevelTime;
 
@@ -310,15 +310,27 @@ public class GameManager : MonoBehaviour
 
     public bool IsInMainHub() => SceneManager.GetActiveScene().name == Levels.LuminaGrove;
 
+    public bool IsTimeTrialActive() => isTimeTrialActive;
+
+    public void OpenOptions() => HUDManager.Instance.OpenOptions();
+    public bool IsOptionsVisible => HUDManager.Instance.IsOptionsVisible;
+    public void CloseOptions() => HUDManager.Instance.CloseOptions();
+
     public void StartNewGame()
     {
         playerData.Reset();
         LoadLevel(Levels.LuminaGrove, Levels.GetLoadingMessage(Levels.LuminaGrove));
     }
 
+    public void StartNewGamePrototype()
+    {
+        playerData.Reset();
+        LoadLevel(Levels.VerdantHollow.Zone, Levels.GetLoadingMessage(Levels.VerdantHollow.Zone));
+    }
+
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false;
-        //Application.Quit();
+        //UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
     }
 }

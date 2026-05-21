@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 539b9a16e0b656d489fcf66a5dd4ee36, type: 2}
+  - {fileID: 2100000, guid: 4ba1c489974ba8343bd8ab36c5c263ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorizontalMovingPlatform
   moveDistance: 5
   moveSpeed: 3
+  reverse: 0
   smoothTime: 0.5
 --- !u!54 &8297167581768762033
 Rigidbody:

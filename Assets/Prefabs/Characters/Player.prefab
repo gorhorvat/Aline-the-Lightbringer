@@ -119,6 +119,7 @@ MonoBehaviour:
     m_Bits: 128
   attackVFXPrefab: {fileID: 1721991726311022446, guid: b24e6717b5ba45841889234537209652, type: 3}
   playerFallDeathSfx: {fileID: 8300000, guid: 62dd87f1bdca27749b8405359b34513c, type: 3}
+  playerWaterDeathSfx: {fileID: 8300000, guid: 3d254e0b50f183d459feaf2f2fde1894, type: 3}
   playerEnemyDeathSfx: {fileID: 8300000, guid: da0f1609b7410784684b668ab94395b4, type: 3}
   deathEffectVolume: 0.3
 --- !u!1 &2727611821926669016

@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject attackVFXPrefab;
     [SerializeField] AudioClip playerFallDeathSfx;
+    [SerializeField] AudioClip playerWaterDeathSfx;
     [SerializeField] AudioClip playerEnemyDeathSfx;
     [SerializeField] float deathEffectVolume = 1f;
 
@@ -198,7 +199,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Water"))
         {
-            Die(DamageType.Hazard);
+            Die(DamageType.Water);
         }
     }
 
@@ -343,6 +344,7 @@ public class PlayerController : MonoBehaviour
         {
             DamageType.Fall => playerFallDeathSfx,
             DamageType.Hazard => playerFallDeathSfx,
+            DamageType.Water => playerWaterDeathSfx,
             DamageType.Enemy => playerEnemyDeathSfx,
             _ => null
         };

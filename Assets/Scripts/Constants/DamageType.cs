@@ -2,5 +2,6 @@ public enum DamageType
 {
     Fall,
     Enemy,
-    Hazard
+    Hazard,
+    Water
 }

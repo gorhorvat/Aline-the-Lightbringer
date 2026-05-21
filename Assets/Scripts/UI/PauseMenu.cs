@@ -7,7 +7,6 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject returnToHubButton;
-    [SerializeField] OptionsMenu optionsMenu;
 
     PlayerInputActions inputActions;
     TMP_Text returnToHubText;
@@ -38,9 +37,9 @@ public class PauseMenu : MonoBehaviour
 
     void OnPause(InputAction.CallbackContext ctx)
     {
-        if (optionsMenu.IsVisible)
+        if (GameManager.Instance.IsOptionsVisible)
         {
-            optionsMenu.Hide();
+            GameManager.Instance.CloseOptions();
             return;
         }
 
@@ -63,10 +62,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void OpenOptions()
-    {
-        optionsMenu.Show(AudioManager.Instance.audioSettings);
-    }
+    public void OpenOptions() => GameManager.Instance.OpenOptions();
 
     public void ReturnToHub()
     {

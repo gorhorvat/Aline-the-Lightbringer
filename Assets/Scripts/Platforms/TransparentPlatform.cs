@@ -6,9 +6,7 @@ public class TransparentPlatform : MonoBehaviour
     [SerializeField] float toggleInterval = 2f; // seconds between toggles
     [SerializeField] float fadeSpeed = 1f; // how fast it fades
 
-    [Header("Materials")]
-    [SerializeField] Material solidMaterial;
-    [SerializeField] Material transparentMaterial;
+    [SerializeField] Material platformMaterial;
 
     MeshRenderer platformRenderer;
     Collider platformCollider;
@@ -18,6 +16,7 @@ public class TransparentPlatform : MonoBehaviour
     {
         platformRenderer = GetComponent<MeshRenderer>();
         platformCollider = GetComponent<Collider>();
+        platformRenderer.material = platformMaterial;
 
         StartCoroutine(ToggleLoop());
     }
@@ -34,24 +33,20 @@ public class TransparentPlatform : MonoBehaviour
     IEnumerator FadeOut()
     {
         float t = 0f;
-        Color solidColor = solidMaterial.color;
-        Color transparentColor = transparentMaterial.color;
-
         while (t < 1f)
         {
             t += Time.deltaTime * fadeSpeed;
-            platformRenderer.material.color = Color.Lerp(solidColor, transparentColor, t);
+            SetAlpha(Mathf.Lerp(1f, 0f, t));
             yield return null;
         }
 
-        platformRenderer.material = transparentMaterial;
+        SetAlpha(0f);
         platformCollider.enabled = false;
         isSolid = false;
     }
 
     IEnumerator FadeIn()
     {
-        // Check if player is inside before becoming solid
         Collider[] overlapping = Physics.OverlapBox(
             transform.position,
             transform.localScale / 2,
@@ -69,16 +64,20 @@ public class TransparentPlatform : MonoBehaviour
         isSolid = true;
 
         float t = 0f;
-        Color solidColor = solidMaterial.color;
-        Color transparentColor = transparentMaterial.color;
-
         while (t < 1f)
         {
             t += Time.deltaTime * fadeSpeed;
-            platformRenderer.material.color = Color.Lerp(transparentColor, solidColor, t);
+            SetAlpha(Mathf.Lerp(0f, 1f, t));
             yield return null;
         }
 
-        platformRenderer.material = solidMaterial;
+        SetAlpha(1f);
+    }
+
+    void SetAlpha(float alpha)
+    {
+        Color c = platformRenderer.material.color;
+        c.a = alpha;
+        platformRenderer.material.color = c;
     }
 }

@@ -3672,7 +3672,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pausePanel: {fileID: 5545234984918364507}
   returnToHubButton: {fileID: 4939700889144592852}
-  optionsMenu: {fileID: 9101789342582161146}
 --- !u!1 &8986121975164658331
 GameObject:
   m_ObjectHideFlags: 0

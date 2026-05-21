@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZoneData
   levels:
   - {fileID: 11400000, guid: 051fb53dbac96d94ba55ccefc2844830, type: 2}
-  isUnlocked: 1
+  isUnlocked: 0
   bossDefeated: 0
   obeliskActivated: 0
   newSkillCollected: 0

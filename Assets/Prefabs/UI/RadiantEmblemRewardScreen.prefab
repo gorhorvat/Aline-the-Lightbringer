@@ -491,6 +491,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RadiantEmblemRewardScreen
   panel: {fileID: 7285771231899917268}
   rewardText: {fileID: 1028728467627852586}
+  rewardSfx: {fileID: 8300000, guid: 52b138cc81a83c643ada73f54ad044f9, type: 3}
+  effectVolume: 1
 --- !u!1 &7285771231899917268
 GameObject:
   m_ObjectHideFlags: 0

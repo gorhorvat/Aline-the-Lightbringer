@@ -15,6 +15,8 @@ public class HUDManager : MonoBehaviour
     Coroutine hideCoroutine;
     CollectablesOverlay collectablesOverlay;
     TimeTrialOverlay timeTrialOverlay;
+    PauseMenu pauseMenu;
+    OptionsMenu optionsMenu;
     LoadingScreen loadingScreen;
     RadiantEmblemRewardScreen radiantEmblemRewardScreen;
     ChronoFeatherRewardScreen chronoFeatherRewardScreen;
@@ -35,7 +37,8 @@ public class HUDManager : MonoBehaviour
         loadingScreen = Instantiate(loadingScreenPrefab);
         radiantEmblemRewardScreen = Instantiate(radiantEmblemRewardScreenPrefab);
         chronoFeatherRewardScreen = Instantiate(chronoFeatherRewardScreenPrefab);
-        Instantiate(pauseMenuPrefab);
+        pauseMenu = Instantiate(pauseMenuPrefab);
+        optionsMenu = pauseMenu.GetComponentInChildren<OptionsMenu>(true);
     }
 
     public void ShowCollectablesOverlay(int currentLumiberries, int totalLumiberries)
@@ -77,4 +80,10 @@ public class HUDManager : MonoBehaviour
     public void HideLoadingScreen() => loadingScreen.Hide();
 
     public void UpdateLives(int lives) => collectablesOverlay.UpdateLives(lives);
+
+    public bool IsOptionsVisible => optionsMenu.IsVisible;
+
+    public void OpenOptions() => optionsMenu.Show(AudioManager.Instance.audioSettings);
+    
+    public void CloseOptions() => optionsMenu.Hide();
 }
