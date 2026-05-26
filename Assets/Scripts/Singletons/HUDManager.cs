@@ -67,11 +67,11 @@ public class HUDManager : MonoBehaviour
 
     public void UpdateTimer(float currentTime) => timeTrialOverlay.UpdateTimer(currentTime);
 
-    public void ShowRadiantEmblemRewardPanel(string levelName, string targetLevel) => radiantEmblemRewardScreen.Show(levelName, targetLevel);
+    public void ShowRadiantEmblemRewardPanel(string levelName) => radiantEmblemRewardScreen.Show(levelName);
 
     public void CloseRadiantEmblemRewardPanel() => radiantEmblemRewardScreen.Hide();
 
-    public void ShowChronoFeatherRewardPanel(string levelName, float finalTime, string targetLevel) => chronoFeatherRewardScreen.Show(levelName, finalTime, targetLevel);
+    public void ShowChronoFeatherRewardPanel(string levelName, float finalTime) => chronoFeatherRewardScreen.Show(levelName, finalTime);
 
     public void CloseChronoFeatherRewardPanel() => chronoFeatherRewardScreen.Hide();
 

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 public static class Levels
 {
+    public const string MainMenu = "MainMenu";
+
     public const string LuminaGrove = "LuminaGrove";
 
     public static class Dev

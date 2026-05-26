@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     HashSet<CollectableType> pendingCollectables = new();
     Queue<Action> rewardPanelQueue = new();
+    string queuedTargetLevel;
     float minimumLoadTime = 2f;
     bool isLevelLoading;
     bool isDeathless = true;
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
         HUDManager.Instance.UpdateLives(playerData.currentLives);
     }
 
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
         yield return operation;
 
         isLevelLoading = false;
+        Cursor.visible = false;
         RefreshCollectablesOverlay();
         EndTimeTrialMode();
         HUDManager.Instance.HideLoadingScreen();
@@ -240,7 +242,7 @@ public class GameManager : MonoBehaviour
             if (isRadiantEmblemObtainable)
             {
                 pendingCollectables.Add(CollectableType.RadiantEmblem);
-                rewardPanelQueue.Enqueue(() => HUDManager.Instance.ShowRadiantEmblemRewardPanel(levelName, targetLevel));
+                rewardPanelQueue.Enqueue(() => HUDManager.Instance.ShowRadiantEmblemRewardPanel(levelName));
 
             }
 
@@ -252,14 +254,15 @@ public class GameManager : MonoBehaviour
                 pendingCollectables.Add(CollectableType.ChronoFeather);
                 finalLevelTime = currentLevelTime;
                 level.chronoFeatherBestTime = finalLevelTime;
-                rewardPanelQueue.Enqueue(() => HUDManager.Instance.ShowChronoFeatherRewardPanel(levelName, finalLevelTime, targetLevel));
+                rewardPanelQueue.Enqueue(() => HUDManager.Instance.ShowChronoFeatherRewardPanel(levelName, finalLevelTime));
             }
         }
 
-        ShowNextRewardPanel(targetLevel);
+        queuedTargetLevel = targetLevel;
+        ShowNextRewardPanel();
     }
 
-    public void ShowNextRewardPanel(string targetLevel)
+    public void ShowNextRewardPanel()
     {
         if (rewardPanelQueue.Count > 0)
         {
@@ -267,7 +270,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            TriggerLevelTransition(targetLevel);
+            TriggerLevelTransition(queuedTargetLevel);
         }
     }
 
@@ -310,10 +313,12 @@ public class GameManager : MonoBehaviour
 
     public bool IsInMainHub() => SceneManager.GetActiveScene().name == Levels.LuminaGrove;
 
+    public bool IsInMainMenu() => SceneManager.GetActiveScene().name == Levels.MainMenu;
+
     public bool IsTimeTrialActive() => isTimeTrialActive;
 
     public void OpenOptions() => HUDManager.Instance.OpenOptions();
-    public bool IsOptionsVisible => HUDManager.Instance.IsOptionsVisible;
+    public bool IsOptionsVisible() => HUDManager.Instance.IsOptionsVisible;
     public void CloseOptions() => HUDManager.Instance.CloseOptions();
 
     public void StartNewGame()
@@ -325,6 +330,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGamePrototype()
     {
         playerData.Reset();
+        Cursor.visible = false;
         LoadLevel(Levels.VerdantHollow.Zone, Levels.GetLoadingMessage(Levels.VerdantHollow.Zone));
     }
 

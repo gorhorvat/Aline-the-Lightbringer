@@ -8,19 +8,18 @@ public abstract class BaseRewardScreen : MonoBehaviour
     [SerializeField] protected AudioClip rewardSfx;
     [SerializeField] protected float effectVolume;
 
-    protected string levelToRedirect;
-
-    protected void ShowScreen(string message, string targetLevel)
+    protected void ShowScreen(string message)
     {
         rewardText.text = message;
         panel.SetActive(true);
+        Cursor.visible = true;
         AudioManager.Instance.PlaySfx(rewardSfx, transform.position, effectVolume);
-        levelToRedirect = targetLevel;
     }
 
     public void OnConfirmClicked()
     {
-        GameManager.Instance.ShowNextRewardPanel(levelToRedirect);
+        Hide();
+        GameManager.Instance.ShowNextRewardPanel();
     }
 
     public void Hide()

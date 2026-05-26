@@ -26,7 +26,7 @@ public class PauseMenu : MonoBehaviour
     void OnEnable()
     {
         inputActions.Player.Enable();
-        inputActions.Player.Pause.started += OnPause;
+        inputActions.Player.Pause.performed += OnPause;
     }
 
     void OnDisable()
@@ -37,7 +37,11 @@ public class PauseMenu : MonoBehaviour
 
     void OnPause(InputAction.CallbackContext ctx)
     {
-        if (GameManager.Instance.IsOptionsVisible)
+        Cursor.visible = true;
+
+        if (GameManager.Instance.IsInMainMenu()) return;
+
+        if (GameManager.Instance.IsOptionsVisible())
         {
             GameManager.Instance.CloseOptions();
             return;
@@ -51,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = true;
         pausePanel.SetActive(true);
+        Cursor.visible = true;
         returnToHubButton.SetActive(!GameManager.Instance.IsInMainHub());
         Time.timeScale = 0f;
     }
@@ -59,6 +64,7 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         pausePanel.SetActive(false);
+        Cursor.visible = false;
         Time.timeScale = 1f;
     }
 
@@ -67,6 +73,7 @@ public class PauseMenu : MonoBehaviour
     public void ReturnToHub()
     {
         Time.timeScale = 1f;
+        Cursor.visible = false;
         GameManager.Instance.ReturnToZone();
     }
 

@@ -1,8 +1,12 @@
-using TMPro;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    private void Start()
+    {
+        Cursor.visible = true;
+    }
+
     public void StartNewGame()
     {
         GameManager.Instance.StartNewGamePrototype();
