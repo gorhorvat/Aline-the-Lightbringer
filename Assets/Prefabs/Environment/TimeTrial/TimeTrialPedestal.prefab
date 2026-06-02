@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1486096238256159787}
   - component: {fileID: 3809502834194373532}
   - component: {fileID: 8637534193206055683}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TimeTrialPedestal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlowEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 8717987085420479663, guid: d460a984ca10c1c49b2767cd135ece91, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -199,6 +203,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6db80daed28759c4185f24067c5ea145, type: 3}
       propertyPath: m_Name
       value: time_trial_pedestal
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6db80daed28759c4185f24067c5ea145, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

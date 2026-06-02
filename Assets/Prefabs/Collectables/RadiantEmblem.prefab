@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8499824774899534015}
   - component: {fileID: 666208812206643125}
   - component: {fileID: -7661270241046422199}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RadiantEmblem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,6 +141,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlowEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 8717987085420479663, guid: d460a984ca10c1c49b2767cd135ece91, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -202,6 +206,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 25fb579e611774649a6acf4f78f8d61c, type: 3}
       propertyPath: m_Name
       value: RadiantEmblem
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 25fb579e611774649a6acf4f78f8d61c, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

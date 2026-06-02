@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -892510966048260636, guid: 6400952fd3bc8a74ab96060ddae15cc1, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2839602468969024298, guid: 6400952fd3bc8a74ab96060ddae15cc1, type: 3}
       propertyPath: m_Name
       value: ForestEnemy1Chase
